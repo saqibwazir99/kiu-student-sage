@@ -138,11 +138,11 @@ export const ChatBot: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-lg">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden">
+          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden p-1">
             <img 
-              src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=40&h=40&fit=crop&crop=center" 
+              src="/lovable-uploads/9c9f161d-1b9e-4232-985e-1ed0b7568d59.png" 
               alt="KIU Logo" 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </div>
           <div>

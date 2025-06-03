@@ -10,8 +10,12 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">K</span>
+              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center overflow-hidden border border-green-200 p-2">
+                <img 
+                  src="/lovable-uploads/9c9f161d-1b9e-4232-985e-1ed0b7568d59.png" 
+                  alt="KIU Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-900">KIU Assistant</h1>
