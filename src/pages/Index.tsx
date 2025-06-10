@@ -23,7 +23,7 @@ const Index = () => {
               </div>
             </div>
             <div className="text-sm text-gray-600">
-              Karachi Institute of Economics & Technology
+              Karakoram International University
             </div>
           </div>
         </div>
