@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { ChatHeader } from './ChatHeader';
@@ -75,8 +74,8 @@ export const ChatBot: React.FC = () => {
         text: response.text,
         isBot: true,
         timestamp: new Date(),
-        buttons: response.buttons || undefined,
-        links: response.links || undefined,
+        buttons: 'buttons' in response ? response.buttons : undefined,
+        links: 'links' in response ? response.links : undefined,
       };
 
       setMessages(prev => [...prev, botMessage]);
