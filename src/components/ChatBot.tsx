@@ -75,8 +75,8 @@ export const ChatBot: React.FC = () => {
         text: response.text,
         isBot: true,
         timestamp: new Date(),
-        buttons: response.buttons,
-        links: response.links,
+        buttons: response.buttons || undefined,
+        links: response.links || undefined,
       };
 
       setMessages(prev => [...prev, botMessage]);
