@@ -35,7 +35,8 @@ export const ChatBot: React.FC = () => {
       { text: language === 'en' ? "📚 Academics" : "📚 تعلیمی", action: "academics" },
       { text: language === 'en' ? "🏫 Campus Life" : "🏫 کیمپس لائف", action: "campus" },
       { text: language === 'en' ? "💰 Fee Structure" : "💰 فیس کی تفصیلات", action: "fees" },
-    ]
+    ],
+    links: []
   });
 
   useEffect(() => {
@@ -94,6 +95,7 @@ export const ChatBot: React.FC = () => {
         text: aiResponse,
         isBot: true,
         timestamp: new Date(),
+        links: []
       };
 
       setMessages(prev => [...prev, botMessage]);
@@ -133,7 +135,7 @@ export const ChatBot: React.FC = () => {
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto h-[600px] flex flex-col bg-white shadow-xl border-green-200">
+    <Card className="w-full max-w-5xl mx-auto h-[700px] flex flex-col bg-gradient-to-b from-white to-gray-50 shadow-2xl border-0 rounded-2xl overflow-hidden">
       <ChatHeader
         language={language}
         onLanguageChange={handleLanguageChange}

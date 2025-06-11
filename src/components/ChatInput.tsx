@@ -29,8 +29,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <div className="p-4 bg-white border-t border-gray-200">
-      <div className="flex space-x-2">
+    <div className="p-6 bg-white border-t border-gray-100 rounded-b-2xl">
+      <div className="flex space-x-3">
         <Input
           ref={inputRef}
           value={inputValue}
@@ -38,30 +38,30 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           onKeyPress={handleKeyPress}
           placeholder={
             language === 'en' 
-              ? "Type your message..." 
-              : "اپنا پیغام ٹائپ کریں..."
+              ? "Ask me anything about KIU..." 
+              : "KIU کے بارے میں کچھ بھی پوچھیں..."
           }
-          className="flex-1 border-green-200 focus:border-green-500 focus:ring-green-500"
+          className="flex-1 border-green-200 focus:border-green-500 focus:ring-green-500 rounded-full px-6 py-3 text-base shadow-sm"
           dir={language === 'ur' ? 'rtl' : 'ltr'}
         />
         <Button
           onClick={onSendMessage}
           disabled={!inputValue.trim()}
-          className="bg-green-600 hover:bg-green-700 text-white"
+          className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-full px-6 py-3 shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50"
         >
-          <Send className="h-4 w-4" />
+          <Send className="h-5 w-5" />
         </Button>
       </div>
-      <div className="mt-2 flex items-center justify-center space-x-4 text-xs text-gray-500">
+      <div className="mt-3 flex items-center justify-center space-x-6 text-xs text-gray-500">
         <button 
-          className="flex items-center space-x-1 hover:text-green-600 transition-colors"
+          className="flex items-center space-x-2 hover:text-green-600 transition-colors font-medium"
           onClick={onHumanSupport}
         >
-          <Phone className="h-3 w-3" />
-          <span>{language === 'en' ? 'Human Support' : 'انسانی مدد'}</span>
+          <Phone className="h-4 w-4" />
+          <span>{language === 'en' ? 'Contact Support' : 'سپورٹ سے رابطہ'}</span>
         </button>
-        <span>•</span>
-        <span>{language === 'en' ? 'Powered by KIU AI' : 'KIU AI کی طرف سے'}</span>
+        <span className="text-gray-300">•</span>
+        <span className="font-medium">{language === 'en' ? 'Powered by KIU AI' : 'KIU AI کی طرف سے'}</span>
       </div>
     </div>
   );

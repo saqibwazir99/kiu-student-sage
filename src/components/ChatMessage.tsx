@@ -32,57 +32,57 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
 
   if (message.isBot) {
     return (
-      <div className="flex items-start space-x-3 animate-fade-in">
-        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden border-2 border-green-200 p-1">
+      <div className="flex items-start space-x-4 animate-fade-in mb-6">
+        <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg ring-2 ring-green-200">
           <img 
             src="/lovable-uploads/9c9f161d-1b9e-4232-985e-1ed0b7568d59.png" 
             alt="KIU Logo" 
-            className="w-full h-full object-contain"
+            className="w-6 h-6 object-contain"
           />
         </div>
-        <div className="flex-1 space-y-2">
-          <div className="bg-white rounded-2xl rounded-tl-md p-3 shadow-sm border border-green-100">
-            <p className="text-gray-800 leading-relaxed whitespace-pre-wrap" dir={language === 'ur' ? 'rtl' : 'ltr'}>
+        <div className="flex-1 space-y-3 max-w-4xl">
+          <div className="bg-white rounded-3xl rounded-tl-lg p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-200">
+            <p className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
               {message.text}
             </p>
           </div>
           
           {message.links && message.links.length > 0 && (
-            <div className="space-y-2">
+            <div className="space-y-2 ml-2">
               {message.links.map((link, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   size="sm"
                   onClick={() => handleLinkClick(link.url)}
-                  className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 text-sm"
+                  className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 text-sm font-medium transition-all duration-200 hover:scale-105 shadow-sm"
                 >
-                  {link.icon === 'file' && <FileText className="h-3 w-3 mr-1" />}
-                  {link.icon === 'external' && <ExternalLink className="h-3 w-3 mr-1" />}
+                  {link.icon === 'file' && <FileText className="h-4 w-4 mr-2" />}
+                  {link.icon === 'external' && <ExternalLink className="h-4 w-4 mr-2" />}
                   {link.text}
                 </Button>
               ))}
             </div>
           )}
           
-          <p className="text-xs text-gray-500 ml-1">{formatTime(message.timestamp)}</p>
+          <p className="text-xs text-gray-400 ml-2 font-medium">{formatTime(message.timestamp)}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex items-start space-x-3 justify-end animate-fade-in">
-      <div className="flex-1 space-y-1">
-        <div className="bg-green-600 text-white rounded-2xl rounded-tr-md p-3 shadow-sm ml-12">
-          <p className="leading-relaxed" dir={language === 'ur' ? 'rtl' : 'ltr'}>
+    <div className="flex items-start space-x-4 justify-end animate-fade-in mb-6">
+      <div className="flex-1 space-y-2 max-w-3xl">
+        <div className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-3xl rounded-tr-lg p-6 shadow-md ml-16 hover:shadow-lg transition-shadow duration-200">
+          <p className="leading-relaxed text-base font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
             {message.text}
           </p>
         </div>
-        <p className="text-xs text-gray-500 text-right mr-1">{formatTime(message.timestamp)}</p>
+        <p className="text-xs text-gray-400 text-right mr-2 font-medium">{formatTime(message.timestamp)}</p>
       </div>
-      <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-        <User className="h-4 w-4 text-white" />
+      <div className="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg ring-2 ring-gray-200">
+        <User className="h-5 w-5 text-white" />
       </div>
     </div>
   );

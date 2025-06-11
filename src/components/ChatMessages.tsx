@@ -37,7 +37,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
   }, [messages]);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+    <div className="flex-1 overflow-y-auto p-6 space-y-1 bg-gradient-to-b from-gray-50 to-white">
       {messages.map((message) => (
         <div key={message.id}>
           <ChatMessage message={message} language={language} />
