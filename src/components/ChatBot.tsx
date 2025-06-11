@@ -4,7 +4,8 @@ import { Card } from '@/components/ui/card';
 import { ChatHeader } from './ChatHeader';
 import { ChatMessages } from './ChatMessages';
 import { ChatInput } from './ChatInput';
-import { chatResponses } from '../data/chatResponses';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/components/ui/use-toast';
 
 interface Message {
   id: string;
@@ -20,12 +21,13 @@ export const ChatBot: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [language, setLanguage] = useState<'en' | 'ur'>('en');
+  const { toast } = useToast();
 
   const createWelcomeMessage = (): Message => ({
     id: Date.now().toString(),
     text: language === 'en' 
-      ? "👋 Hello! I'm KIU Assistant. How can I help you today?"
-      : "👋 السلام علیکم! میں KIU اسسٹنٹ ہوں۔ آج میں آپ کی کیسے مدد کر سکتا ہوں؟",
+      ? "👋 Hello! I'm KIU Assistant, powered by AI. I can help you with admissions, academics, campus life, fees, and any other questions about Karakoram International University. How can I assist you today?"
+      : "👋 السلام علیکم! میں KIU اسسٹنٹ ہوں، AI کی طاقت سے بنایا گیا۔ میں آپ کو داخلہ، تعلیمی، کیمپس لائف، فیس، اور قراقرم انٹرنیشنل یونیورسٹی کے بارے میں کسی بھی سوال میں مدد کر سکتا ہوں۔ آج میں آپ کی کیسے مدد کر سکتا ہوں؟",
     isBot: true,
     timestamp: new Date(),
     buttons: [
@@ -40,17 +42,33 @@ export const ChatBot: React.FC = () => {
     setMessages([createWelcomeMessage()]);
   }, [language]);
 
-  const findResponse = (input: string) => {
-    const lowerInput = input.toLowerCase();
-    const responses = chatResponses[language];
-    
-    for (const [key, response] of Object.entries(responses)) {
-      if (lowerInput.includes(key)) {
-        return response;
+  const getAIResponse = async (userMessage: string): Promise<string> => {
+    try {
+      console.log('Sending message to AI:', userMessage);
+      
+      const { data, error } = await supabase.functions.invoke('kiu-ai-chat', {
+        body: { 
+          message: userMessage,
+          language: language
+        }
+      });
+
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw error;
       }
+
+      console.log('AI response received:', data);
+      return data.response || (language === 'en' ? 
+        "I apologize, but I'm having trouble processing your request right now. Please try again or contact our support team." :
+        "معذرت، میں فی الوقت آپ کی درخواست پر کارروائی کرنے میں مشکل کا سامنا کر رہا ہوں۔ دوبارہ کوشش کریں یا ہماری سپورٹ ٹیم سے رابطہ کریں۔"
+      );
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      return language === 'en' ? 
+        "I'm experiencing some technical difficulties. Please try again in a moment." :
+        "مجھے کچھ تکنیکی مشکلات کا سامنا ہے۔ کرپیا ایک لمحے میں دوبارہ کوشش کریں۔";
     }
-    
-    return responses.default;
   };
 
   const handleSendMessage = async (messageText?: string) => {
@@ -68,27 +86,38 @@ export const ChatBot: React.FC = () => {
     setInputValue('');
     setIsTyping(true);
 
-    setTimeout(() => {
-      const response = findResponse(text);
+    try {
+      const aiResponse = await getAIResponse(text);
+      
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: response.text,
+        text: aiResponse,
         isBot: true,
         timestamp: new Date(),
-        buttons: 'buttons' in response ? response.buttons : undefined,
-        links: 'links' in response ? response.links : undefined,
       };
 
       setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Error in handleSendMessage:', error);
+      toast({
+        title: "Error",
+        description: "Failed to get response. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsTyping(false);
-    }, 1000 + Math.random() * 1000);
+    }
   };
 
   const handleButtonClick = (action: string) => {
-    const responses = chatResponses[language];
-    const response = responses[action] || responses.default;
+    const actionMessages = {
+      admissions: language === 'en' ? "Tell me about admissions at KIU" : "KIU میں داخلے کے بارے میں بتائیں",
+      academics: language === 'en' ? "What academic programs does KIU offer?" : "KIU کیا تعلیمی پروگرام پیش کرتا ہے؟",
+      campus: language === 'en' ? "Tell me about campus life at KIU" : "KIU میں کیمپس لائف کے بارے میں بتائیں",
+      fees: language === 'en' ? "What is the fee structure at KIU?" : "KIU میں فیس کی تفصیلات کیا ہیں؟"
+    };
     
-    handleSendMessage(language === 'en' ? `Tell me about ${action}` : `${action} کے بارے میں بتائیں`);
+    handleSendMessage(actionMessages[action as keyof typeof actionMessages] || action);
   };
 
   const handleRestart = () => {
@@ -100,7 +129,7 @@ export const ChatBot: React.FC = () => {
   };
 
   const handleHumanSupport = () => {
-    handleSendMessage("I need human support");
+    handleSendMessage(language === 'en' ? "I need human support" : "مجھے انسانی مدد چاہیے");
   };
 
   return (
