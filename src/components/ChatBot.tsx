@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { ChatHeader } from './ChatHeader';
@@ -43,7 +42,7 @@ export const ChatBot: React.FC = () => {
     setMessages([createWelcomeMessage()]);
   }, [language]);
 
-  const getAIResponse = async (userMessage: string): Promise<string> => {
+  const getAIResponse = async (userMessage: string): Promise<{ response: string; links?: Array<{ text: string; url: string; icon?: string }> }> => {
     try {
       console.log('Sending message to AI:', userMessage);
       
@@ -60,15 +59,21 @@ export const ChatBot: React.FC = () => {
       }
 
       console.log('AI response received:', data);
-      return data.response || (language === 'en' ? 
-        "I apologize, but I'm having trouble processing your request right now. Please try again or contact our support team." :
-        "معذرت، میں فی الوقت آپ کی درخواست پر کارروائی کرنے میں مشکل کا سامنا کر رہا ہوں۔ دوبارہ کوشش کریں یا ہماری سپورٹ ٹیم سے رابطہ کریں۔"
-      );
+      return {
+        response: data.response || (language === 'en' ? 
+          "I apologize, but I'm having trouble processing your request right now. Please try again or contact our support team." :
+          "معذرت، میں فی الوقت آپ کی درخواست پر کارروائی کرنے میں مشکل کا سامنا کر رہا ہوں۔ دوبارہ کوشش کریں یا ہماری سپورٹ ٹیم سے رابطہ کریں۔"
+        ),
+        links: data.links || []
+      };
     } catch (error) {
       console.error('Error getting AI response:', error);
-      return language === 'en' ? 
-        "I'm experiencing some technical difficulties. Please try again in a moment." :
-        "مجھے کچھ تکنیکی مشکلات کا سامنا ہے۔ کرپیا ایک لمحے میں دوبارہ کوشش کریں۔";
+      return {
+        response: language === 'en' ? 
+          "I'm experiencing some technical difficulties. Please try again in a moment." :
+          "مجھے کچھ تکنیکی مشکلات کا سامنا ہے۔ کرپیا ایک لمحے میں دوبارہ کوشش کریں۔",
+        links: []
+      };
     }
   };
 
@@ -88,14 +93,14 @@ export const ChatBot: React.FC = () => {
     setIsTyping(true);
 
     try {
-      const aiResponse = await getAIResponse(text);
+      const aiResult = await getAIResponse(text);
       
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: aiResponse,
+        text: aiResult.response,
         isBot: true,
         timestamp: new Date(),
-        links: []
+        links: aiResult.links || []
       };
 
       setMessages(prev => [...prev, botMessage]);

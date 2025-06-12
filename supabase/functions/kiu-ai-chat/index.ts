@@ -31,7 +31,7 @@ ADMISSIONS INFORMATION:
 - Entrance test may be required for certain programs
 
 FEE STRUCTURE (Fall 2024 & Spring 2025):
-- Approved fee structure available on admissions portal
+- Approved fee structure available at: https://admissions.kiu.edu.pk/p/approved-fee-structure-for-academic-semester-fall-2024-and-spring-2025-GB9BXA
 - Different fee structures for different programs
 - Installment payment options available
 - Scholarships and financial aid programs offered
@@ -71,24 +71,28 @@ FREQUENTLY ASKED QUESTIONS:
 
 const getSystemPrompt = (language: 'en' | 'ur') => {
   if (language === 'ur') {
-    return `آپ قراقرم انٹرنیشنل یونیورسٹی (KIU) کے لیے ایک AI اسسٹنٹ ہیں۔ آپ کو یونیورسٹی کے بارے میں دوستانہ، مکمل اور مددگار جوابات دینے ہیں۔
+    return `آپ قراقرم انٹرنیشنل یونیورسٹی (KIU) کے لیے ایک AI اسسٹنٹ ہیں جو GPT-4o-mini ماڈل استعمال کرتا ہے۔ آپ کو یونیورسٹی کے بارے میں دوستانہ، مکمل اور مددگار جوابات دینے ہیں۔
 
 رہنمائی:
 - ہمیشہ دوستانہ اور مددگار رہیں
 - مکمل اور تفصیلی جوابات دیں، مختصر جوابات سے بچیں
 - صاف اردو میں جواب دیں، markdown یا کوڈ جیسا فارمیٹنگ استعمال نہ کریں
+- جب بھی ممکن ہو تو متعلقہ ویب سائٹ لنکس فراہم کریں
+- فیس کے بارے میں سوالات کے لیے یہ لنک ضرور شامل کریں: https://admissions.kiu.edu.pk/p/approved-fee-structure-for-academic-semester-fall-2024-and-spring-2025-GB9BXA
 - اگر آپ کو کوئی جواب نہیں معلوم تو ایمانداری سے کہیں اور مناسب رابطے کی معلومات فراہم کریں
-- یونیورسٹی کی ویب سائٹس کا حوالہ دیں: ku.edu.pk, admissions.kiu.edu.pk, studentaffairs.kiu.edu.pk
+- بنیادی یونیورسٹی ویب سائٹس کا حوالہ دیں: ku.edu.pk, admissions.kiu.edu.pk, studentaffairs.kiu.edu.pk
 
 ${KNOWLEDGE_BASE}`;
   }
 
-  return `You are an AI assistant for Karakoram International University (KIU). You should provide friendly, complete, and helpful responses about the university.
+  return `You are an AI assistant for Karakoram International University (KIU) powered by the GPT-4o-mini model. You should provide friendly, complete, and helpful responses about the university.
 
 Guidelines:
 - Always be friendly and helpful
 - Give complete and detailed answers, avoid short responses
 - Use clean, natural English without markdown, asterisks, or code-like formatting
+- Always provide relevant website links when possible
+- For fee-related questions, always include this link: https://admissions.kiu.edu.pk/p/approved-fee-structure-for-academic-semester-fall-2024-and-spring-2025-GB9BXA
 - If you don't know something, be honest and provide appropriate contact information
 - Reference university websites: ku.edu.pk, admissions.kiu.edu.pk, studentaffairs.kiu.edu.pk
 - Expand your answers with relevant details and context
@@ -152,16 +156,56 @@ serve(async (req) => {
     }
 
     const data = await response.json();
-    const aiResponse = data.choices[0]?.message?.content;
+    let aiResponse = data.choices[0]?.message?.content;
 
     if (!aiResponse) {
       throw new Error('No response from AI');
     }
 
+    // Add relevant links based on the message content
+    const links = [];
+    const messageLower = message.toLowerCase();
+    
+    if (messageLower.includes('fee') || messageLower.includes('cost') || messageLower.includes('tuition') || messageLower.includes('payment')) {
+      links.push({
+        text: language === 'en' ? '📄 Fee Structure Details' : '📄 فیس کی تفصیلات',
+        url: 'https://admissions.kiu.edu.pk/p/approved-fee-structure-for-academic-semester-fall-2024-and-spring-2025-GB9BXA',
+        icon: 'file'
+      });
+    }
+    
+    if (messageLower.includes('admission') || messageLower.includes('apply') || messageLower.includes('enrollment')) {
+      links.push({
+        text: language === 'en' ? '🎓 Admissions Portal' : '🎓 داخلہ پورٹل',
+        url: 'https://admissions.kiu.edu.pk',
+        icon: 'external'
+      });
+    }
+    
+    if (messageLower.includes('campus') || messageLower.includes('student life') || messageLower.includes('facilities')) {
+      links.push({
+        text: language === 'en' ? '🏫 Student Affairs' : '🏫 طلبا امور',
+        url: 'https://studentaffairs.kiu.edu.pk',
+        icon: 'external'
+      });
+    }
+    
+    // Always include the main website link
+    if (!links.some(link => link.url.includes('ku.edu.pk'))) {
+      links.push({
+        text: language === 'en' ? '🌐 KIU Official Website' : '🌐 KIU آفیشل ویب سائٹ',
+        url: 'https://ku.edu.pk',
+        icon: 'external'
+      });
+    }
+
     console.log('AI response generated successfully');
 
     return new Response(
-      JSON.stringify({ response: aiResponse }),
+      JSON.stringify({ 
+        response: aiResponse,
+        links: links
+      }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
