@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { User, FileText, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -23,11 +22,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
   };
 
   const handleLinkClick = (url: string) => {
-    if (url.startsWith('http')) {
-      window.open(url, '_blank');
-    } else {
-      console.log(`Action: ${url}`);
-    }
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   if (message.isBot) {
@@ -55,7 +50,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
                   variant="outline"
                   size="sm"
                   onClick={() => handleLinkClick(link.url)}
-                  className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 text-sm font-medium transition-all duration-200 hover:scale-105 shadow-sm"
+                  className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 text-sm font-medium transition-all duration-200 hover:scale-105 shadow-sm cursor-pointer"
                 >
                   {link.icon === 'file' && <FileText className="h-4 w-4 mr-2" />}
                   {link.icon === 'external' && <ExternalLink className="h-4 w-4 mr-2" />}
