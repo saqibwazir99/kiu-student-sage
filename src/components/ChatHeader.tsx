@@ -17,7 +17,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   return (
     <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-lg">
       <div className="flex items-center space-x-3">
-        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden p-1">
+        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden p-1 shadow-sm">
           <img 
             src="/lovable-uploads/9c9f161d-1b9e-4232-985e-1ed0b7568d59.png" 
             alt="KIU Logo" 
