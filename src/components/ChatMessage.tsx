@@ -33,11 +33,11 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
   if (message.isBot) {
     return (
       <div className="flex items-start space-x-4 animate-fade-in mb-6">
-        <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg ring-2 ring-green-200">
+        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0 shadow-sm border border-gray-200 p-1">
           <img 
             src="/lovable-uploads/9c9f161d-1b9e-4232-985e-1ed0b7568d59.png" 
             alt="KIU Logo" 
-            className="w-6 h-6 object-contain"
+            className="w-full h-full object-contain"
           />
         </div>
         <div className="flex-1 space-y-3 max-w-4xl">
