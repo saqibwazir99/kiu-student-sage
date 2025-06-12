@@ -144,8 +144,9 @@ serve(async (req) => {
             content: message
           }
         ],
-        temperature: 0.7,
-        max_tokens: 1000,
+        temperature: 0.3,
+        max_tokens: 800,
+        stream: false
       }),
     });
 

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { User, FileText, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -21,8 +22,35 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  const handleLinkClick = (url: string) => {
+  const handleLinkClick = (url: string, e?: React.MouseEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+    console.log('Link clicked:', url);
     window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  // Function to render text with hyperlinks
+  const renderTextWithLinks = (text: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = text.split(urlRegex);
+    
+    return parts.map((part, index) => {
+      if (urlRegex.test(part)) {
+        return (
+          <a
+            key={index}
+            href={part}
+            onClick={(e) => handleLinkClick(part, e)}
+            className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
   };
 
   if (message.isBot) {
@@ -37,9 +65,9 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
         </div>
         <div className="flex-1 space-y-3 max-w-4xl">
           <div className="bg-white rounded-3xl rounded-tl-lg p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-200">
-            <p className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
-              {message.text}
-            </p>
+            <div className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
+              {renderTextWithLinks(message.text)}
+            </div>
           </div>
           
           {message.links && message.links.length > 0 && (
@@ -49,8 +77,13 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
                   key={index}
                   variant="outline"
                   size="sm"
-                  onClick={() => handleLinkClick(link.url)}
-                  className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 text-sm font-medium transition-all duration-200 hover:scale-105 shadow-sm cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleLinkClick(link.url);
+                  }}
+                  className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 text-sm font-medium transition-all duration-200 hover:scale-105 shadow-sm cursor-pointer inline-flex items-center"
+                  type="button"
                 >
                   {link.icon === 'file' && <FileText className="h-4 w-4 mr-2" />}
                   {link.icon === 'external' && <ExternalLink className="h-4 w-4 mr-2" />}
@@ -70,9 +103,9 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     <div className="flex items-start space-x-4 justify-end animate-fade-in mb-6">
       <div className="flex-1 space-y-2 max-w-3xl">
         <div className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-3xl rounded-tr-lg p-6 shadow-md ml-16 hover:shadow-lg transition-shadow duration-200">
-          <p className="leading-relaxed text-base font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
-            {message.text}
-          </p>
+          <div className="leading-relaxed text-base font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
+            {renderTextWithLinks(message.text)}
+          </div>
         </div>
         <p className="text-xs text-gray-400 text-right mr-2 font-medium">{formatTime(message.timestamp)}</p>
       </div>
