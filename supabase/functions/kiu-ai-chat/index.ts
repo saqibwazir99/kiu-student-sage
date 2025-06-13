@@ -15,7 +15,7 @@ const KNOWLEDGE_BASE = `
 KARAKORAM INTERNATIONAL UNIVERSITY (KIU) - COMPREHENSIVE INFORMATION
 
 GENERAL INFORMATION:
-- Official Website: ku.edu.pk
+- Official Website: kiu.edu.pk
 - Admissions Portal: admissions.kiu.edu.pk
 - Student Affairs: studentaffairs.kiu.edu.pk
 - Location: Gilgit-Baltistan, Pakistan
@@ -121,7 +121,7 @@ Don't use large markdown headings (# or ##) like **. Use short bold titles or si
 Do not say you are an OpenAI model or chatbot. You are the KIU Student Sage assistant.
 
 If unsure or not available, say:
-"Please visit the official KIU website for more information: [ku.edu.pk](https://ku.edu.pk)"
+"Please visit the official KIU website for more information: [kiu.edu.pk](https://kiu.edu.pk)"
 
 ${KNOWLEDGE_BASE}`;
 };
@@ -217,11 +217,11 @@ serve(async (req) => {
       });
     }
     
-    // Always include the main website link
-    if (!links.some(link => link.url.includes('ku.edu.pk'))) {
+    // Always include the main website link with correct URL
+    if (!links.some(link => link.url.includes('kiu.edu.pk'))) {
       links.push({
         text: language === 'en' ? '🌐 KIU Official Website' : '🌐 KIU آفیشل ویب سائٹ',
-        url: 'https://ku.edu.pk',
+        url: 'https://kiu.edu.pk',
         icon: 'external'
       });
     }
