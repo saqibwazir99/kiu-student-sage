@@ -204,15 +204,15 @@ serve(async (req) => {
     if (messageLower.includes('admission') || messageLower.includes('apply') || messageLower.includes('enrollment')) {
       links.push({
         text: language === 'en' ? '🎓 Admissions Portal' : '🎓 داخلہ پورٹل',
-        url: 'https://admissions.kiu.edu.pk',
+        url: 'https://admissions.kiu.edu.pk/',
         icon: 'external'
       });
     }
     
     if (messageLower.includes('campus') || messageLower.includes('student life') || messageLower.includes('facilities')) {
       links.push({
-        text: language === 'en' ? '🏫 Student Affairs' : '🏫 طلبا امور',
-        url: 'https://studentaffairs.kiu.edu.pk',
+        text: language === 'en' ? '🏫 Campus Facilities' : '🏫 کیمپس کی سہولات',
+        url: 'https://kiu.edu.pk/facilities/campus-facilities',
         icon: 'external'
       });
     }
