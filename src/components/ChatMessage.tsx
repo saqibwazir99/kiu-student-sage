@@ -122,7 +122,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
       <style>{`
         .chat-bubble-content ul, .chat-bubble-content ol {
           padding-left: 2em !important;
-          margin-top: 0.2em;
+          margin-top: 1em; /* Increased gap before the list starts */
           margin-bottom: 0.5em;
         }
         .chat-bubble-content ul {
