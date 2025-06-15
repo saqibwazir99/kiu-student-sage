@@ -20,9 +20,9 @@ interface Props {
 }
 
 /**
- * - Replaces "Faculty of ...: 👉 [link]" (or similar) with buttons (and marks them as inline)
- * - Also highlights arrow+url or bare url
- * - For non-bot messages, just plain text/url detection
+ * - Shows all content as plain text, including `[link]` placeholders,
+ *   to ensure faculty links are *not* rendered inline.
+ * - Highlights arrow+url or plain url as before for convenience.
  */
 export const ChatMessageContent: React.FC<Props> = ({
   message,
@@ -30,62 +30,7 @@ export const ChatMessageContent: React.FC<Props> = ({
   onLinkClick,
   inlineLinkUrls,
 }) => {
-  // Helper for inline links
-  const findLinkForLabel = (label: string, links: LinkItem[]) => {
-    const found =
-      links.find(
-        (l) =>
-          l.text &&
-          (l.text.toLowerCase().includes(label.toLowerCase()) ||
-            label.toLowerCase().includes(l.text.toLowerCase()))
-      ) || links[0];
-    if (found) inlineLinkUrls.add(found.url);
-    return found;
-  };
-
-  // Parses content and replaces [link] placeholders with buttons for matching link
-  const renderTextWithLinks = (text: string) => {
-    // Match: e.g. "Faculty of Something: 👉 [link]"
-    const facultyLinkRegex = /([^\n:]+):?\s*👉\s*\[link\]/gi;
-    let parts: React.ReactNode[] = [];
-    let lastIdx = 0;
-    let match;
-    let idx = 0;
-    while (
-      message.isBot &&
-      message.links &&
-      (match = facultyLinkRegex.exec(text)) !== null
-    ) {
-      const before = text.slice(lastIdx, match.index);
-      if (before) parts.push(before);
-
-      const label = match[1].trim();
-      const foundLink = findLinkForLabel(label, message.links);
-      if (foundLink) {
-        parts.push(
-          <ChatInlineLinkButton
-            key={`inline-faculty-link-${idx++}`}
-            text={foundLink.text}
-            url={foundLink.url}
-            icon={foundLink.icon}
-            onClick={onLinkClick}
-          />
-        );
-      } else {
-        parts.push(" [link]");
-      }
-      lastIdx = facultyLinkRegex.lastIndex;
-    }
-    if (lastIdx < text.length) {
-      parts.push(text.slice(lastIdx));
-    }
-
-    return parts.map((part, i) =>
-      typeof part === "string"
-        ? renderLinksInPlainText(part, i)
-        : part
-    );
-  };
+  // No longer replace [link] with buttons. Just render text and highlight URLs/arrows.
 
   // Highlights 👉 [url] and also plain urls
   const renderLinksInPlainText = (text: string, nodeIdx: number) => {
@@ -165,6 +110,11 @@ export const ChatMessageContent: React.FC<Props> = ({
     return parts;
   };
 
+  // Only highlight links within the plain text, do not replace [link] blocks anywhere
+  const renderTextOnly = (text: string) => {
+    return renderLinksInPlainText(text, 0);
+  };
+
   // Renders text, including styled lists
   return (
     <div
@@ -192,7 +142,7 @@ export const ChatMessageContent: React.FC<Props> = ({
         }
       `}</style>
       <span className="chat-bubble-content">
-        {renderTextWithLinks(message.text)}
+        {renderTextOnly(message.text)}
       </span>
     </div>
   );
