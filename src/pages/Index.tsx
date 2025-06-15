@@ -1,8 +1,20 @@
-
 import React from 'react';
 import { ChatBot } from '../components/ChatBot';
+import { useEffect } from "react";
+import { fetchCrawledContent } from "@/utils/fetchCrawledContent";
 
 const Index = () => {
+  useEffect(() => {
+    // Only run once, fetch scholarships and student affair content
+    fetchCrawledContent([
+      "https://studentaffairs.kiu.edu.pk/",
+      "https://www.kiu.edu.pk/center/scholarships-2",
+    ]).then(results => {
+      console.log("Crawled Student Affairs & Scholarships content:", results);
+      // You can review this output in the browser console!
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-white">
       {/* Header */}
