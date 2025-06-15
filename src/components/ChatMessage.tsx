@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { User, FileText, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -64,7 +63,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
           />
         </div>
         <div className="flex-1 space-y-3 max-w-4xl">
-          <div className="bg-gradient-to-br from-green-100 via-green-50 to-white rounded-3xl rounded-tl-lg p-6 shadow-md border border-green-100 hover:shadow-lg transition-shadow duration-200">
+          <div className="bg-gradient-to-br from-green-100 via-green-50 to-white rounded-3xl rounded-tl-lg p-6 shadow-md border border-green-100 hover:shadow-lg transition-shadow duration-200 font-sans">
+            {/* font-sans uses Inter if loaded */}
             <div className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
               {renderTextWithLinks(message.text)}
             </div>
@@ -102,7 +102,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
   return (
     <div className="flex items-start space-x-4 justify-end animate-fade-in mb-6">
       <div className="flex-1 space-y-2 max-w-3xl">
-        <div className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-3xl rounded-tr-lg p-6 shadow-md ml-16 hover:shadow-lg transition-shadow duration-200">
+        <div className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-3xl rounded-tr-lg p-6 shadow-md ml-16 hover:shadow-lg transition-shadow duration-200 font-sans">
           <div className="leading-relaxed text-base font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
             {renderTextWithLinks(message.text)}
           </div>
