@@ -166,18 +166,19 @@ serve(async (req) => {
       cleaned = cleaned.replace(/\*\*/g, ''); // remove bold markdown
       cleaned = cleaned.replace(/\*/g, ''); // remove any stray asterisks
       cleaned = cleaned.replace(/•/g, ''); // remove bullets
+
       // Replace markdown-style links [text](url) with raw url appearing
       cleaned = cleaned.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '$2');
-      // Remove any remaining bracketed text around urls (from accidental markdown crafting)
       cleaned = cleaned.replace(/\((https?:\/\/[^\s]+)\)/g, '$1');
-      // Remove whitespace before URLs
       cleaned = cleaned.replace(/\s+(https?:\/\/)/g, '\n$1');
-      // Improve spacing for numbered points (add extra linebreak after lines like '1. something')
-      cleaned = cleaned.replace(/(\d+\.\s.*?)(?=\n|$)/g, '$1\n');
-      // Improve spacing between any bullet-like lines (single linebreak for single dash line)
-      cleaned = cleaned.replace(/(\n- .*)/g, '\n$1\n');
-      // Remove any remaining consecutive blank lines (keep max 2)
+      // --- IMPROVEMENT: Add single blank line after every numbering/bullet/line that starts with a number or a dash.
+      // 1. X
+      cleaned = cleaned.replace(/(^|\n)(\d+\.\s.*)/g, '$1$2\n');
+      // - X (if any remain after bullet replace)
+      cleaned = cleaned.replace(/(^|\n)(-\s.*)/g, '$1$2\n');
+      // Then, collapse more than two blank lines into just two
       cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+      // Trim whole result
       return cleaned.trim();
     }
 
