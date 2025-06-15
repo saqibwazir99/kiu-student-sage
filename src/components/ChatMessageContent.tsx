@@ -1,5 +1,7 @@
 import React from "react";
 import { ChatInlineLinkButton } from "./ChatInlineLinkButton";
+import { ChatMessageBlock } from "./ChatMessageBlock";
+import { splitBulletBlocks } from "./chatMessageUtils";
 
 interface LinkItem {
   text: string;
@@ -29,211 +31,18 @@ export const ChatMessageContent: React.FC<Props> = ({
   onLinkClick,
   inlineLinkUrls,
 }) => {
-  // Improved: Split text on single line breaks that appear to start new bullets
-  // and render each as a separate <div> for better spacing if not using Markdown.
-
-  // This function processes the text to separate "bullet" styles, e.g. lines that start
-  // with "•", "-", "1." etc., or a capitalized label followed by colon.
-  function splitBulletBlocks(text: string) {
-    const lines = text.split('\n');
-    const blocks: string[] = [];
-    let current = '';
-
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
-
-      // Detect "bullet" or "item" - starts with number., dash, or ALL CAPS/LABEL:
-      const isListItem = /^(\d+\.\s+|-\s+|•\s+|[A-Za-z ]+?:)/.test(line);
-
-      if (isListItem && current) {
-        blocks.push(current.trim());
-        current = line;
-      } else if (isListItem) {
-        current = line;
-      } else if (line === '') {
-        if (current) blocks.push(current.trim());
-        current = '';
-      } else {
-        // Append to previous line
-        current += (current ? ' ' : '') + line;
-      }
-    }
-    if (current) blocks.push(current.trim());
-    return blocks;
-  }
-
-  // Returns the URL for a link label if it's in the message.links array
-  function getUrlForLabel(label: string): { url: string; icon?: string; text: string } | undefined {
-    if (!Array.isArray(message.links)) return undefined;
-    // Match by either text (ignore emojis) or by just the plain url itself
-    // Try more flexible match: if [admissions.kiu.edu.pk] appears, try match if link text or url contains same
-    label = label.trim();
-    // first exact match on text
-    let found = message.links.find(l => l.text?.replace(/^[^A-Za-z0-9]+/, '').toLowerCase() === label.toLowerCase());
-    if (!found) {
-      // Try matching by url itself if label looks like a URL
-      found = message.links.find(l => l.url && l.url.toLowerCase().includes(label.toLowerCase()));
-    }
-    if (!found) {
-      // Try matching by a partial on either link text or url
-      found = message.links.find(l =>
-        l.text?.toLowerCase().includes(label.toLowerCase()) ||
-        l.url?.toLowerCase().includes(label.toLowerCase())
-      );
-    }
-    return found;
-  }
-
-  // Enhanced: makes [label] or [label content] clickable if matching message.links
-  const renderLinksInPlainText = (text: string, nodeIdx: number) => {
-    const arrowLabelPattern = /(👉)\s*\[([^\]]+)\]/g;
-    const arrowLinkPattern = /(👉)\s*(https?:\/\/[^\s\]]+)/g;
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const parts: React.ReactNode[] = [];
-    let lastIndex = 0;
-    let match;
-    let idx = 0;
-
-    // First, process any `👉 [label]` patterns
-    while ((match = arrowLabelPattern.exec(text)) !== null) {
-      // Add any preceding text
-      if (match.index > lastIndex) {
-        const before = text.substring(lastIndex, match.index);
-        // Highlight plain urls in before text
-        before.split(urlRegex).forEach((chunk, i) => {
-          if (urlRegex.test(chunk)) {
-            parts.push(
-              <a
-                key={`url-arlabel-pre-${nodeIdx}-${idx++}`}
-                href={chunk}
-                onClick={(e) => onLinkClick(chunk, e)}
-                className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {chunk}
-              </a>
-            );
-          } else if (chunk) {
-            parts.push(chunk);
-          }
-        });
-      }
-      // The [label] text
-      const arrow = match[1];
-      const label = match[2];
-      const link = getUrlForLabel(label);
-
-      if (link) {
-        inlineLinkUrls?.add(link.url); // Track as inline so button isn't duplicated
-        parts.push(
-          <span key={`arrow-label-link-${nodeIdx}-${match.index}`}>
-            <span className="font-semibold select-none" aria-label="link">{arrow}</span>
-            <a
-              href={link.url}
-              onClick={(e) => onLinkClick(link.url, e)}
-              className="ml-1 text-blue-600 underline hover:text-blue-800 cursor-pointer break-all font-medium"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {label}
-            </a>
-          </span>
-        );
-      } else {
-        // No match, show as plain text
-        parts.push(
-          <span key={`arrow-label-nolink-${nodeIdx}-${match.index}`}>
-            <span className="font-semibold select-none" aria-label="link">{arrow}</span>
-            <span className="ml-1">{label}</span>
-          </span>
-        );
-      }
-      lastIndex = match.index + match[0].length;
-    }
-
-    // Next, process 👉 url
-    let restText = text.substring(lastIndex);
-    lastIndex = 0;
-    while ((match = arrowLinkPattern.exec(restText)) !== null) {
-      if (match.index > lastIndex) {
-        const before = restText.substring(lastIndex, match.index);
-        before.split(urlRegex).forEach((chunk, i) => {
-          if (urlRegex.test(chunk)) {
-            parts.push(
-              <a
-                key={`url-arrowurl-pre-${nodeIdx}-${idx++}`}
-                href={chunk}
-                onClick={(e) => onLinkClick(chunk, e)}
-                className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {chunk}
-              </a>
-            );
-          } else if (chunk) {
-            parts.push(chunk);
-          }
-        });
-      }
-      const url = match[2];
-      parts.push(
-        <span key={`arrow-link-${nodeIdx}-${match.index}`}>
-          <span className="font-semibold select-none" aria-label="link">{match[1]}</span>
-          <a
-            href={url}
-            onClick={(e) => onLinkClick(url, e)}
-            className="ml-1 text-blue-600 underline hover:text-blue-800 cursor-pointer break-all font-medium"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {url}
-          </a>
-        </span>
-      );
-      lastIndex = match.index + match[0].length;
-    }
-
-    // Anything left, split as plain URLs and render
-    if (lastIndex < restText.length) {
-      const rest = restText.substring(lastIndex);
-      rest.split(urlRegex).forEach((chunk, i) => {
-        if (urlRegex.test(chunk)) {
-          parts.push(
-            <a
-              key={`url-remainder-${nodeIdx}-${idx++}`}
-              href={chunk}
-              onClick={(e) => onLinkClick(chunk, e)}
-              className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {chunk}
-            </a>
-          );
-        } else if (chunk) {
-          parts.push(chunk);
-        }
-      });
-    }
-    return parts;
-  };
-
   // The new renderer: visually separates blocks with spacing
   const renderTextWithSpacing = (text: string) => {
     const blocks = splitBulletBlocks(text);
     return blocks.map((block, idx) => (
-      <div
+      <ChatMessageBlock
         key={idx}
-        className="mb-3"
-        style={{
-          lineHeight: 1.75,
-          fontWeight: /^[A-Za-z ]+?:/.test(block) ? 500 : 400,
-        }}
-      >
-        {renderLinksInPlainText(block, idx)}
-      </div>
+        block={block}
+        nodeIdx={idx}
+        links={message.links}
+        onLinkClick={onLinkClick}
+        inlineLinkUrls={inlineLinkUrls}
+      />
     ));
   };
 
@@ -243,31 +52,19 @@ export const ChatMessageContent: React.FC<Props> = ({
       dir={language === "ur" ? "rtl" : "ltr"}
       style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
     >
-      <style>{`
-        .chat-bubble-content p {
-          margin-bottom: 1em !important;
-        }
+      <style>
+        {`
+        .chat-bubble-content p { margin-bottom: 1em !important; }
         .chat-bubble-content ul,
         .chat-bubble-content ol {
           padding-left: 2em !important;
           margin-top: 1.4em !important;
           margin-bottom: 1em !important;
         }
-        .chat-bubble-content ul {
-          list-style-type: disc !important;
-          list-style-position: outside !important;
-        }
-        .chat-bubble-content ol {
-          list-style-type: decimal !important;
-          list-style-position: outside !important;
-        }
-        .chat-bubble-content li {
-          margin-bottom: 0.75em !important;
-          padding-left: 0.20em;
-        }
-        .chat-bubble-content li + li {
-          margin-top: 0.5em !important;
-        }
+        .chat-bubble-content ul { list-style-type: disc !important; list-style-position: outside !important; }
+        .chat-bubble-content ol { list-style-type: decimal !important; list-style-position: outside !important; }
+        .chat-bubble-content li { margin-bottom: 0.75em !important; padding-left: 0.20em; }
+        .chat-bubble-content li + li { margin-top: 0.5em !important; }
         .chat-bubble-content h1,
         .chat-bubble-content h2,
         .chat-bubble-content h3,
@@ -276,26 +73,17 @@ export const ChatMessageContent: React.FC<Props> = ({
           margin-bottom: 0.75em !important;
           font-weight: 700;
         }
-        /* Gap before/after list relative to text/blocks */
         .chat-bubble-content * + ul,
-        .chat-bubble-content * + ol {
-          margin-top: 1em !important;
-        }
+        .chat-bubble-content * + ol { margin-top: 1em !important; }
         .chat-bubble-content ul + *,
-        .chat-bubble-content ol + * {
-          margin-top: 1em !important;
-        }
-        /* Extra: reduce run-together look if parser outputs multiple p or headings in succession */
-        .chat-bubble-content p + p {
-          margin-top: 0.5em !important;
-        }
+        .chat-bubble-content ol + * { margin-top: 1em !important; }
+        .chat-bubble-content p + p { margin-top: 0.5em !important; }
         .chat-bubble-content h1 + p,
         .chat-bubble-content h2 + p,
         .chat-bubble-content h3 + p,
-        .chat-bubble-content h4 + p {
-          margin-top: 0.5em !important;
-        }
-      `}</style>
+        .chat-bubble-content h4 + p { margin-top: 0.5em !important; }
+        `}
+      </style>
       <span className="chat-bubble-content">
         {renderTextWithSpacing(message.text)}
       </span>
