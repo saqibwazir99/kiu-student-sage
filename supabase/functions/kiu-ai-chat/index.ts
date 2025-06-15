@@ -188,7 +188,13 @@ serve(async (req) => {
     const links = [];
     const messageLower = message.toLowerCase();
     
-    if (messageLower.includes('fee') || messageLower.includes('cost') || messageLower.includes('tuition') || messageLower.includes('payment')) {
+    // ADJUSTED: Only add fee structure link if message specifically mentions fee/cost/tuition/payment
+    if (
+      messageLower.includes('fee') ||
+      messageLower.includes('cost') ||
+      messageLower.includes('tuition') ||
+      messageLower.includes('payment')
+    ) {
       links.push({
         text: language === 'en' ? '📄 Fee Structure Details' : '📄 فیس کی تفصیلات',
         url: 'https://admissions.kiu.edu.pk/p/approved-fee-structure-for-academic-semester-fall-2024-and-spring-2025-GB9BXA',
@@ -196,7 +202,12 @@ serve(async (req) => {
       });
     }
     
-    if (messageLower.includes('admission') || messageLower.includes('apply') || messageLower.includes('enrollment')) {
+    // Admissions: ONLY respond to 'admission', 'apply', 'enrollment' (not fee)
+    if (
+      messageLower.includes('admission') ||
+      messageLower.includes('apply') ||
+      messageLower.includes('enrollment')
+    ) {
       links.push({
         text: language === 'en' ? '🎓 Admissions Portal' : '🎓 داخلہ پورٹل',
         url: 'https://admissions.kiu.edu.pk/',
