@@ -122,10 +122,14 @@ export const ChatMessageContent: React.FC<Props> = ({
       style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}
     >
       <style>{`
-        .chat-bubble-content ul, .chat-bubble-content ol {
+        .chat-bubble-content p {
+          margin-bottom: 1em !important;
+        }
+        .chat-bubble-content ul,
+        .chat-bubble-content ol {
           padding-left: 2em !important;
           margin-top: 1.4em !important;
-          margin-bottom: 0.7em !important;
+          margin-bottom: 1em !important;
         }
         .chat-bubble-content ul {
           list-style-type: disc !important;
@@ -139,8 +143,34 @@ export const ChatMessageContent: React.FC<Props> = ({
           margin-bottom: 0.75em !important;
           padding-left: 0.20em;
         }
-        /* New: add gap between list items (margin-bottom) */
         .chat-bubble-content li + li {
+          margin-top: 0.5em !important;
+        }
+        .chat-bubble-content h1,
+        .chat-bubble-content h2,
+        .chat-bubble-content h3,
+        .chat-bubble-content h4 {
+          margin-top: 1em !important;
+          margin-bottom: 0.75em !important;
+          font-weight: 700;
+        }
+        /* Gap before/after list relative to text/blocks */
+        .chat-bubble-content * + ul,
+        .chat-bubble-content * + ol {
+          margin-top: 1em !important;
+        }
+        .chat-bubble-content ul + *,
+        .chat-bubble-content ol + * {
+          margin-top: 1em !important;
+        }
+        /* Extra: reduce run-together look if parser outputs multiple p or headings in succession */
+        .chat-bubble-content p + p {
+          margin-top: 0.5em !important;
+        }
+        .chat-bubble-content h1 + p,
+        .chat-bubble-content h2 + p,
+        .chat-bubble-content h3 + p,
+        .chat-bubble-content h4 + p {
           margin-top: 0.5em !important;
         }
       `}</style>
