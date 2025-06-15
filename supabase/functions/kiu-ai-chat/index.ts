@@ -158,6 +158,25 @@ serve(async (req) => {
       throw new Error('No response from AI');
     }
 
+    // Remove asterisks and markdown list syntax from the AI's response
+    // Also remove any bullet characters or bracket-link format (e.g., [text](url))
+    function sanitizeResponse(resp: string): string {
+      // Remove leading and inline asterisks or bullet-style chars
+      let cleaned = resp.replace(/^[\s*•\-]+/gm, '');              // line-start *, •, -
+      cleaned = cleaned.replace(/\*\*/g, '');                      // remove bold markdown
+      cleaned = cleaned.replace(/\*/g, '');                        // remove any stray asterisks
+      cleaned = cleaned.replace(/•/g, '');                         // remove bullets
+      // Replace markdown-style links [text](url) with raw url appearing
+      cleaned = cleaned.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '$2');
+      // Remove any remaining bracketed text around urls (from accidental markdown crafting)
+      cleaned = cleaned.replace(/\((https?:\/\/[^\s]+)\)/g, '$1');
+      // Remove whitespace before URLs
+      cleaned = cleaned.replace(/\s+(https?:\/\/)/g, '\n$1');
+      return cleaned;
+    }
+
+    aiResponse = sanitizeResponse(aiResponse);
+
     // Add relevant links based on the message content
     const links = [];
     const messageLower = message.toLowerCase();
@@ -178,26 +197,25 @@ serve(async (req) => {
       });
     }
     
-    // Ensure campus facilities always uses the correct, working URL and button
-    if (
-      messageLower.includes('campus') ||
-      messageLower.includes('student life') ||
-      messageLower.includes('facilities')
-    ) {
-      links.push({
-        text: language === 'en' ? '🏫 Campus Facilities' : '🏫 کیمپس کی سہولات',
-        url: 'https://www.kiu.edu.pk/facilities/campus-facilities',
-        icon: 'external'
-      });
-    }
-    
-    if (messageLower.includes('hostel')) {
-      links.push({
-        text: language === 'en' ? '🏠 Hostel Facilities' : '🏠 ہاسٹل کی سہولتیں',
-        url: 'https://www.kiu.edu.pk/facilities/campus-facilities',
-        icon: 'external'
-      });
-    }
+    // Ensure campus facilities always uses the correct, naked URL and button
+    // (link logic is already correct, but as a fallback, always add a plain naked link if not present)
+    const alwaysCheckLinks = [
+      { keyword: 'campus facilities', url: 'https://www.kiu.edu.pk/facilities/campus-facilities' },
+      { keyword: 'hostel', url: 'https://www.kiu.edu.pk/facilities/campus-facilities' },
+      { keyword: 'admission', url: 'https://admissions.kiu.edu.pk/' },
+    ];
+    alwaysCheckLinks.forEach(item => {
+      if (
+        messageLower.includes(item.keyword) &&
+        !links.some(link => link.url === item.url)
+      ) {
+        links.push({
+          text: item.url,
+          url: item.url,
+          icon: 'external'
+        });
+      }
+    });
     
     if (messageLower.includes('lms')) {
       links.push({
@@ -276,10 +294,10 @@ serve(async (req) => {
       }
     }
     
-    // Always include the main website link with correct URL
+    // Always include the main website link with correct URL as naked fallback if nothing else
     if (!links.some(link => link.url.includes('kiu.edu.pk'))) {
       links.push({
-        text: language === 'en' ? '🌐 KIU Official Website' : '🌐 KIU آفیشل ویب سائٹ',
+        text: 'https://kiu.edu.pk',
         url: 'https://kiu.edu.pk',
         icon: 'external'
       });
@@ -288,8 +306,8 @@ serve(async (req) => {
     console.log('AI response generated successfully');
 
     return new Response(
-      JSON.stringify({ 
-        response: aiResponse,
+      JSON.stringify({
+        response: aiResponse,   // sanitized
         links: links
       }),
       {
