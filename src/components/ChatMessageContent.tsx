@@ -29,9 +29,40 @@ export const ChatMessageContent: React.FC<Props> = ({
   onLinkClick,
   inlineLinkUrls,
 }) => {
-  // No longer replace [link] with buttons. Just render text and highlight URLs/arrows.
+  // Improved: Split text on single line breaks that appear to start new bullets
+  // and render each as a separate <div> for better spacing if not using Markdown.
 
-  // Highlights 👉 [url] and also plain urls
+  // This function processes the text to separate "bullet" styles, e.g. lines that start
+  // with "•", "-", "1." etc., or a capitalized label followed by colon.
+  function splitBulletBlocks(text: string) {
+    const lines = text.split('\n');
+    const blocks: string[] = [];
+    let current = '';
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      // Detect "bullet" or "item" - starts with number., dash, or ALL CAPS/LABEL:
+      const isListItem = /^(\d+\.\s+|-\s+|•\s+|[A-Za-z ]+?:)/.test(line);
+
+      if (isListItem && current) {
+        blocks.push(current.trim());
+        current = line;
+      } else if (isListItem) {
+        current = line;
+      } else if (line === '') {
+        if (current) blocks.push(current.trim());
+        current = '';
+      } else {
+        // Append to previous line
+        current += (current ? ' ' : '') + line;
+      }
+    }
+    if (current) blocks.push(current.trim());
+    return blocks;
+  }
+
+  // Only highlight links within the plain text
   const renderLinksInPlainText = (text: string, nodeIdx: number) => {
     const arrowLinkPattern = /(👉)\s*(?:\[)?(https?:\/\/[^\]\s]+)(?:\])?/g;
     const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -109,12 +140,23 @@ export const ChatMessageContent: React.FC<Props> = ({
     return parts;
   };
 
-  // Only highlight links within the plain text, do not replace [link] blocks anywhere
-  const renderTextOnly = (text: string) => {
-    return renderLinksInPlainText(text, 0);
+  // The new renderer: visually separates blocks with spacing
+  const renderTextWithSpacing = (text: string) => {
+    const blocks = splitBulletBlocks(text);
+    return blocks.map((block, idx) => (
+      <div
+        key={idx}
+        className="mb-3"
+        style={{
+          lineHeight: 1.75,
+          fontWeight: /^[A-Za-z ]+?:/.test(block) ? 500 : 400,
+        }}
+      >
+        {renderLinksInPlainText(block, idx)}
+      </div>
+    ));
   };
 
-  // Renders text, including styled lists
   return (
     <div
       className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap font-medium font-sans"
@@ -175,7 +217,7 @@ export const ChatMessageContent: React.FC<Props> = ({
         }
       `}</style>
       <span className="chat-bubble-content">
-        {renderTextOnly(message.text)}
+        {renderTextWithSpacing(message.text)}
       </span>
     </div>
   );
