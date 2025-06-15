@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { User, FileText, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -28,28 +29,99 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  // Enhanced function to render text with hand-arrow + link, or detected hyperlinks
+  // Helper: Find a suitable link by (partial) label matching actual message text 
+  const findLinkForLabel = (label: string, links: NonNullable<Message["links"]>) => {
+    // Try direct match, or "Faculty of Life Sciences" in the link.text
+    return (
+      links.find(
+        (l) =>
+          l.text &&
+          (l.text.toLowerCase().includes(label.toLowerCase()) ||
+            label.toLowerCase().includes(l.text.toLowerCase()))
+      ) || links[0] // fallback: just return first link for robustness
+    );
+  };
+
+  // Enhanced function to render text, handling:
+  //  1. [some text]: 👉 [link]  (placeholder that we resolve using links)
+  //  2. 👉 immediately followed by a url or [url]
+  //  3. detected hyperlinks
+  //  4. gracefully handle ordinary plain text
   const renderTextWithLinks = (text: string) => {
-    // First, handle "👉" directly followed by a URL (optionally inside brackets or not)
-    // We'll render: [ ... plain text ... ][👉][actual link][ ... plain text ... ]
+    if (message.isBot && message.links && message.links.length > 0) {
+      // Replace each "Label: 👉 [link]" or "Label 👉 [link]" with Button for matching link
+      // Also support just "👉 [link]" on line
+      const facultyLinkRegex = /([^\n:]+):?\s*👉\s*\[link\]/gi;
+
+      let parts: React.ReactNode[] = [];
+      let lastIdx = 0;
+      let match;
+      let idx = 0;
+      while ((match = facultyLinkRegex.exec(text)) !== null) {
+        const before = text.slice(lastIdx, match.index);
+        if (before) parts.push(before);
+
+        // Match[1] is the faculty label e.g. "Faculty of Life Sciences"
+        const label = match[1].trim();
+        const foundLink = findLinkForLabel(label, message.links);
+        if (foundLink) {
+          parts.push(
+            <Button
+              key={`inline-faculty-link-${idx++}`}
+              variant="outline"
+              size="sm"
+              onClick={(e) => handleLinkClick(foundLink.url, e)}
+              className="ml-2 border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 text-sm font-medium transition-all duration-200 hover:scale-105 shadow-sm cursor-pointer inline-flex items-center px-3 gap-1"
+              type="button"
+              style={{ verticalAlign: 'middle' }}
+            >
+              {foundLink.icon === 'file' && <FileText className="h-4 w-4 mr-1" />}
+              {foundLink.icon === 'external' && <ExternalLink className="h-4 w-4 mr-1" />}
+              <span>{foundLink.text}</span>
+            </Button>
+          );
+        } else {
+          // fallback: just show placeholder text
+          parts.push(" [link]");
+        }
+        lastIdx = facultyLinkRegex.lastIndex;
+      }
+      if (lastIdx < text.length) {
+        parts.push(text.slice(lastIdx));
+      }
+
+      // Now, for the rest of the text, do standard link rendering. (Some duplication from before, but this is for clarity.)
+      return parts.map((part, i) =>
+        typeof part === "string"
+          ? renderLinksInPlainText(part, i)
+          : part
+      );
+    } else {
+      // No special [link] handling needed, just render normally.
+      return renderLinksInPlainText(text, 0);
+    }
+  };
+
+  // Helper: For any plain text, render detected "arrow+url" and ordinary urls as links
+  const renderLinksInPlainText = (text: string, nodeIdx: number) => {
     const arrowLinkPattern = /(👉)\s*(?:\[)?(https?:\/\/[^\]\s]+)(?:\])?/g;
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     const parts: React.ReactNode[] = [];
 
     let lastIndex = 0;
     let match;
+    let idx = 0;
 
     // For every "👉 [url]" or "👉 url"
     while ((match = arrowLinkPattern.exec(text)) !== null) {
-      // Push any text before the arrow
       if (match.index > lastIndex) {
-        // Now, we have text before, may contain ordinary links too.
+        // Handle regular links in the text before the "👉"
         const beforeText = text.substring(lastIndex, match.index);
-        beforeText.split(urlRegex).forEach((chunk, idx) => {
+        beforeText.split(urlRegex).forEach((chunk, i) => {
           if (urlRegex.test(chunk)) {
             parts.push(
               <a
-                key={`url-pre-${lastIndex}-${idx}`}
+                key={`url-pre-${nodeIdx}-${idx++}`}
                 href={chunk}
                 onClick={(e) => handleLinkClick(chunk, e)}
                 className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all"
@@ -65,15 +137,15 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
         });
       }
 
-      // Push hand arrow and link together, minimal space
+      // Push hand arrow and link together
       const url = match[2];
       parts.push(
-        <span key={`arrow-link-${match.index}`} className="inline-flex items-center gap-1 ml-1">
+        <span key={`arrow-link-${nodeIdx}-${match.index}`}>
           <span className="font-semibold select-none" aria-label="link">{match[1]}</span>
           <a
             href={url}
             onClick={(e) => handleLinkClick(url, e)}
-            className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all font-medium"
+            className="ml-1 text-blue-600 underline hover:text-blue-800 cursor-pointer break-all font-medium"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -87,11 +159,11 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     // Any remaining text after the last arrow+link
     if (lastIndex < text.length) {
       const rest = text.substring(lastIndex);
-      rest.split(urlRegex).forEach((chunk, idx) => {
+      rest.split(urlRegex).forEach((chunk, i) => {
         if (urlRegex.test(chunk)) {
           parts.push(
             <a
-              key={`url-post-${lastIndex}-${idx}`}
+              key={`url-post-${nodeIdx}-${idx++}`}
               href={chunk}
               onClick={(e) => handleLinkClick(chunk, e)}
               className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all"
@@ -110,7 +182,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     return parts;
   };
 
-  // More attractive, well-indented lists (bullets, numbers)
+  // More attractive, well-indented lists (bullets, numbers, with gap before and between items)
   const renderStyledMessageContent = (text: string) => (
     <div
       className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap font-medium font-sans"
@@ -122,8 +194,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
       <style>{`
         .chat-bubble-content ul, .chat-bubble-content ol {
           padding-left: 2em !important;
-          margin-top: 1em; /* Increased gap before the list starts */
-          margin-bottom: 0.5em;
+          margin-top: 1.4em !important;
+          margin-bottom: 0.7em !important;
         }
         .chat-bubble-content ul {
           list-style-type: disc !important;
@@ -134,7 +206,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
           list-style-position: outside !important;
         }
         .chat-bubble-content li {
-          margin-bottom: 0.7em; /* Increased spacing between bullets for appeal */
+          margin-bottom: 0.75em !important;
           padding-left: 0.20em;
         }
       `}</style>
