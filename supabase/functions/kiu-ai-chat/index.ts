@@ -162,17 +162,23 @@ serve(async (req) => {
     // Also remove any bullet characters or bracket-link format (e.g., [text](url))
     function sanitizeResponse(resp: string): string {
       // Remove leading and inline asterisks or bullet-style chars
-      let cleaned = resp.replace(/^[\s*•\-]+/gm, '');              // line-start *, •, -
-      cleaned = cleaned.replace(/\*\*/g, '');                      // remove bold markdown
-      cleaned = cleaned.replace(/\*/g, '');                        // remove any stray asterisks
-      cleaned = cleaned.replace(/•/g, '');                         // remove bullets
+      let cleaned = resp.replace(/^[\s*•\-]+/gm, ''); // line-start *, •, -
+      cleaned = cleaned.replace(/\*\*/g, ''); // remove bold markdown
+      cleaned = cleaned.replace(/\*/g, ''); // remove any stray asterisks
+      cleaned = cleaned.replace(/•/g, ''); // remove bullets
       // Replace markdown-style links [text](url) with raw url appearing
       cleaned = cleaned.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '$2');
       // Remove any remaining bracketed text around urls (from accidental markdown crafting)
       cleaned = cleaned.replace(/\((https?:\/\/[^\s]+)\)/g, '$1');
       // Remove whitespace before URLs
       cleaned = cleaned.replace(/\s+(https?:\/\/)/g, '\n$1');
-      return cleaned;
+      // Improve spacing for numbered points (add extra linebreak after lines like '1. something')
+      cleaned = cleaned.replace(/(\d+\.\s.*?)(?=\n|$)/g, '$1\n');
+      // Improve spacing between any bullet-like lines (single linebreak for single dash line)
+      cleaned = cleaned.replace(/(\n- .*)/g, '\n$1\n');
+      // Remove any remaining consecutive blank lines (keep max 2)
+      cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+      return cleaned.trim();
     }
 
     aiResponse = sanitizeResponse(aiResponse);
