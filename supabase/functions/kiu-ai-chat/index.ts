@@ -178,10 +178,15 @@ serve(async (req) => {
       });
     }
     
-    if (messageLower.includes('campus') || messageLower.includes('student life') || messageLower.includes('facilities')) {
+    // Ensure campus facilities always uses the correct, working URL and button
+    if (
+      messageLower.includes('campus') ||
+      messageLower.includes('student life') ||
+      messageLower.includes('facilities')
+    ) {
       links.push({
         text: language === 'en' ? '🏫 Campus Facilities' : '🏫 کیمپس کی سہولات',
-        url: 'https://kiu.edu.pk/facilities/campus-facilities',
+        url: 'https://www.kiu.edu.pk/facilities/campus-facilities',
         icon: 'external'
       });
     }

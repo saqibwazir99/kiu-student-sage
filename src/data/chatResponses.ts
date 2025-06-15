@@ -2,7 +2,7 @@ export const chatResponses = {
   en: {
     // Admissions
     admissions: {
-      text: "📋 Admissions Information\n\nKarakoram International University (KIU) offers comprehensive undergraduate and graduate programs. Here's detailed admission information:\n\n• Application Period: Spring (Jan-Feb), Fall (July-Aug)\n• Entry Test: HEC-approved NTS test required\n• Minimum Requirements: 50% marks in intermediate/equivalent\n• Documents Required: Academic transcripts, CNIC/B-Form, passport photos, domicile certificate\n• Selection Process: Merit-based with interviews for specific programs",
+      text: "📋 Admissions Information\n\nKarakoram International University (KIU) offers comprehensive undergraduate and graduate programs. Here's detailed admission information:\n\nApplication Period: Spring (Jan-Feb), Fall (July-Aug)\nEntry Test: HEC-approved NTS test required\nMinimum Requirements: 50% marks in intermediate/equivalent\nDocuments Required: Academic transcripts, CNIC/B-Form, passport photos, domicile certificate\nSelection Process: Merit-based with interviews for specific programs",
       buttons: [
         { text: "📝 Application Process", action: "application_process" },
         { text: "📋 Entry Test Details", action: "entry_test" },
@@ -11,37 +11,33 @@ export const chatResponses = {
         { text: "📞 Contact Admissions", action: "contact_admissions" }
       ]
     },
-    
     application_process: {
-      text: "📝 Step-by-Step Application Process\n\n1. Online Registration\n• Visit KIU official website\n• Create student portal account\n• Fill complete application form\n\n2. Document Submission\n• Upload all required documents (scanned copies)\n• Ensure documents are clear and legible\n\n3. Application Fee\n• Pay PKR 2,000 application fee\n• Use bank challan or online payment\n\n4. Entry Test\n• Appear for NTS test at designated centers\n• Test includes English, Math, and subject-specific questions\n\n5. Merit List\n• Check merit list on official website\n• Lists published within 2 weeks of test\n\n6. Admission Confirmation\n• Pay admission fee to secure seat\n• Submit original documents for verification",
+      text: "📝 Step-by-Step Application Process\n\n1. Online Registration\nVisit KIU official website\nCreate student portal account\nFill complete application form\n\n2. Document Submission\nUpload all required documents (scanned copies)\nEnsure documents are clear and legible\n\n3. Application Fee\nPay PKR 2,000 application fee\nUse bank challan or online payment\n\n4. Entry Test\nAppear for NTS test at designated centers\nTest includes English, Math, and subject-specific questions\n\n5. Merit List\nCheck merit list on official website\nLists published within 2 weeks of test\n\n6. Admission Confirmation\nPay admission fee to secure seat\nSubmit original documents for verification",
       buttons: [
         { text: "🌐 Official Website", action: "website" },
         { text: "💳 Payment Methods", action: "payment_methods" },
         { text: "📅 Important Dates", action: "admission_dates" }
       ]
     },
-    
     entry_test: {
-      text: "📋 Entry Test Information (NTS)\n\nTest Structure:\n• Duration: 3 hours\n• Total Questions: 100 MCQs\n• English: 30 questions\n• Mathematics: 30 questions\n• Subject-Specific: 40 questions\n\nTest Centers:\n• Main KIU Campus, Gilgit\n• Regional centers in major cities\n• Islamabad, Karachi, Lahore centers available\n\nPreparation Guidelines:\n• Review intermediate syllabus\n• Practice past papers (available on website)\n• Focus on English comprehension and basic math\n\nResults:\n• Published within 10-15 days\n• Available on NTS and KIU websites\n• SMS alerts sent to registered numbers",
+      text: "📋 Entry Test Information (NTS)\n\nTest Structure:\nDuration: 3 hours\nTotal Questions: 100 MCQs\nEnglish: 30 questions\nMathematics: 30 questions\nSubject-Specific: 40 questions\n\nTest Centers:\nMain KIU Campus, Gilgit\nRegional centers in major cities\nIslamabad, Karachi, Lahore centers available\n\nPreparation Guidelines:\nReview intermediate syllabus\nPractice past papers (available on website)\nFocus on English comprehension and basic math\n\nResults:\nPublished within 10-15 days\nAvailable on NTS and KIU websites\nSMS alerts sent to registered numbers",
       buttons: [
         { text: "📚 Download Past Papers", action: "past_papers" },
         { text: "📍 Test Centers", action: "test_centers" },
         { text: "📊 Merit Calculation", action: "merit_calculation" }
       ]
     },
-
     documents: {
-      text: "📄 Required Documents Checklist\n\nFor Undergraduate Programs:\n• Intermediate/A-Level certificate & transcript\n• Matriculation/O-Level certificate & transcript\n• CNIC or B-Form (copy)\n• Domicile certificate\n• 4 passport-size photographs\n• Character certificate from last institution\n• Medical fitness certificate\n\nFor Graduate Programs:\n• Bachelor's degree certificate & transcript\n• Intermediate certificate & transcript\n• Matriculation certificate\n• CNIC copy\n• 4 passport-size photographs\n• Work experience certificates (if applicable)\n• Research proposal (for research programs)\n\nImportant Notes:\n• All documents must be attested\n• Foreign qualifications require HEC equivalence\n• Submit both original and photocopies",
+      text: "📄 Required Documents Checklist\n\nFor Undergraduate Programs:\nIntermediate/A-Level certificate & transcript\nMatriculation/O-Level certificate & transcript\nCNIC or B-Form (copy)\nDomicile certificate\n4 passport-size photographs\nCharacter certificate from last institution\nMedical fitness certificate\n\nFor Graduate Programs:\nBachelor's degree certificate & transcript\nIntermediate certificate & transcript\nMatriculation certificate\nCNIC copy\n4 passport-size photographs\nWork experience certificates (if applicable)\nResearch proposal (for research programs)\n\nImportant Notes:\nAll documents must be attested\nForeign qualifications require HEC equivalence\nSubmit both original and photocopies",
       buttons: [
         { text: "📋 Document Verification", action: "verification" },
         { text: "🌍 Foreign Qualifications", action: "foreign_docs" },
         { text: "📞 Help Desk", action: "contact_admissions" }
       ]
     },
-
     // Academics
     academics: {
-      text: "📚 Academic Programs at KIU\n\nKIU offers diverse programs across multiple disciplines:\n\n🎓 Undergraduate Programs (4 Years):\n• BS Computer Science\n• BS Software Engineering\n• BS Information Technology\n• BS Business Administration\n• BS Economics\n• BS English Literature\n• BS Mass Communication\n• BS Psychology\n• BS Education\n\n🎓 Graduate Programs:\n• MS Computer Science (2 Years)\n• MS Management Sciences (1.5 Years)\n• MBA (1.5-2 Years)\n• M.Phil Programs (2 Years)\n• PhD Programs (3-5 Years)\n\n🏆 Special Features:\n• Industry-relevant curriculum\n• Experienced faculty\n• Modern labs and facilities\n• Research opportunities",
+      text: "📚 Academic Programs at KIU\n\nKIU offers diverse programs across multiple disciplines:\n\n🎓 Undergraduate Programs (4 Years):\nBS Computer Science\nBS Software Engineering\nBS Information Technology\nBS Business Administration\nBS Economics\nBS English Literature\nBS Mass Communication\nBS Psychology\nBS Education\n\n🎓 Graduate Programs:\nMS Computer Science (2 Years)\nMS Management Sciences (1.5 Years)\nMBA (1.5-2 Years)\nM.Phil Programs (2 Years)\nPhD Programs (3-5 Years)\n\n🏆 Special Features:\nIndustry-relevant curriculum\nExperienced faculty\nModern labs and facilities\nResearch opportunities",
       buttons: [
         { text: "💻 Computing Programs", action: "computing" },
         { text: "💼 Business Programs", action: "business" },
@@ -53,9 +49,8 @@ export const chatResponses = {
         { text: "🗓️ Academic Calendar", action: "academic_calendar" }
       ]
     },
-
     computing: {
-      text: "💻 Computing & IT Programs\n\nBS Computer Science (4 Years)\n• Core Areas: Programming, Algorithms, Data Structures, Software Engineering\n• Specializations: AI/ML, Cybersecurity, Web Development\n• Final Year Project mandatory\n• Internship opportunities with tech companies\n\nBS Software Engineering (4 Years)\n• Focus on software development lifecycle\n• Project management and team collaboration\n• Industry partnerships for practical training\n• Agile and DevOps methodologies\n\nBS Information Technology (4 Years)\n• Network administration and database management\n• IT infrastructure and cloud computing\n• Digital forensics and IT security\n• Industry certifications integrated\n\nCareer Prospects:\n• Software Developer/Engineer\n• Data Scientist/Analyst\n• System Administrator\n• Cybersecurity Specialist\n• IT Consultant\n• Research and Development",
+      text: "💻 Computing & IT Programs\n\nBS Computer Science (4 Years)\nCore Areas: Programming, Algorithms, Data Structures, Software Engineering\nSpecializations: AI/ML, Cybersecurity, Web Development\nFinal Year Project mandatory\nInternship opportunities with tech companies\n\nBS Software Engineering (4 Years)\nFocus on software development lifecycle\nProject management and team collaboration\nIndustry partnerships for practical training\nAgile and DevOps methodologies\n\nBS Information Technology (4 Years)\nNetwork administration and database management\nIT infrastructure and cloud computing\nDigital forensics and IT security\nIndustry certifications integrated\n\nCareer Prospects:\nSoftware Developer/Engineer\nData Scientist/Analyst\nSystem Administrator\nCybersecurity Specialist\nIT Consultant\nResearch and Development",
       buttons: [
         { text: "📋 Curriculum Details", action: "cs_curriculum" },
         { text: "👨‍🏫 Faculty Profiles", action: "cs_faculty" },
@@ -63,9 +58,8 @@ export const chatResponses = {
         { text: "💰 Fee Structure", action: "fees" }
       ]
     },
-
     business: {
-      text: "💼 Business & Management Programs\n\nBBA (4 Years)\n• Comprehensive business education\n• Specializations: Finance, Marketing, HR, Operations\n• Case study methodology\n• Industry exposure through internships\n• Entrepreneurship development\n\nBS Economics (4 Years)\n• Microeconomics and macroeconomics\n• Econometrics and statistical analysis\n• Development economics focus\n• Research methodology\n• Policy analysis skills\n\nMBA Programs (1.5-2 Years)\n• Executive MBA for working professionals\n• Regular MBA for fresh graduates\n• Specializations in various fields\n• International exposure opportunities\n• Leadership development programs\n\nCareer Opportunities:\n• Business Manager/Executive\n• Financial Analyst\n• Marketing Specialist\n• Human Resource Manager\n• Economic Researcher\n• Entrepreneur/Business Owner",
+      text: "💼 Business & Management Programs\n\nBBA (4 Years)\nComprehensive business education\nSpecializations: Finance, Marketing, HR, Operations\nCase study methodology\nIndustry exposure through internships\nEntrepreneurship development\n\nBS Economics (4 Years)\nMicroeconomics and macroeconomics\nEconometrics and statistical analysis\nDevelopment economics focus\nResearch methodology\nPolicy analysis skills\n\nMBA Programs (1.5-2 Years)\nExecutive MBA for working professionals\nRegular MBA for fresh graduates\nSpecializations in various fields\nInternational exposure opportunities\nLeadership development programs\n\nCareer Opportunities:\nBusiness Manager/Executive\nFinancial Analyst\nMarketing Specialist\nHuman Resource Manager\nEconomic Researcher\nEntrepreneur/Business Owner",
       buttons: [
         { text: "📈 Finance Specialization", action: "finance" },
         { text: "📊 Marketing Track", action: "marketing" },
@@ -73,10 +67,8 @@ export const chatResponses = {
         { text: "💼 Career Services", action: "career_services" }
       ]
     },
-
-    // Campus Life
     campus: {
-      text: "🏫 Campus Life at KIU\n\nExperience vibrant campus life in the beautiful Gilgit-Baltistan region:\n\n🏗️ Modern Facilities:\n• State-of-the-art computer labs\n• Well-equipped science laboratories\n• Central library with digital resources\n• Sports complex and gymnasium\n• Modern classrooms with AV equipment\n• High-speed internet connectivity\n\n🎭 Student Activities:\n• Student societies and clubs\n• Annual cultural festival\n• Sports tournaments\n• Debate and literary competitions\n• Community service programs\n• Leadership development workshops\n\n🌄 Unique Location:\n• Scenic mountain campus\n• Fresh air and clean environment\n• Adventure sports opportunities\n• Cultural diversity\n• Safe and secure environment",
+      text: "🏫 Campus Life at KIU\n\nExperience vibrant campus life in the beautiful Gilgit-Baltistan region:\n\n🏗️ Modern Facilities:\nState-of-the-art computer labs\nWell-equipped science laboratories\nCentral library with digital resources\nSports complex and gymnasium\nModern classrooms with AV equipment\nHigh-speed internet connectivity\n\n🎭 Student Activities:\nStudent societies and clubs\nAnnual cultural festival\nSports tournaments\nDebate and literary competitions\nCommunity service programs\nLeadership development workshops\n\n🌄 Unique Location:\nScenic mountain campus\nFresh air and clean environment\nAdventure sports opportunities\nCultural diversity\nSafe and secure environment",
       buttons: [
         { text: "🏗️ Campus Facilities", action: "facilities" },
         { text: "🏠 Accommodation", action: "accommodation" },
@@ -85,28 +77,24 @@ export const chatResponses = {
         { text: "🍽️ Dining Options", action: "dining" }
       ]
     },
-
     facilities: {
-      text: "🏗️ Campus Facilities\n\n📚 Academic Facilities:\n• Central Library: 50,000+ books, digital resources, research databases\n• Computer Labs: 200+ workstations with latest software\n• Science Labs: Physics, Chemistry, Biology labs\n• Language Lab: For English and communication skills\n• Seminar Halls: Fully equipped with multimedia\n\n🏃‍♂️ Sports & Recreation:\n• Multi-purpose sports complex\n• Indoor gymnasium\n• Cricket ground\n• Basketball and volleyball courts\n• Table tennis facility\n• Fitness center\n\n🏥 Support Services:\n• Medical center with qualified staff\n• Counseling and career guidance\n• IT support services\n• Banking facilities\n• Prayer areas (separate for men and women)\n• Cafeteria and food courts\n\n🌐 Technology Infrastructure:\n• Campus-wide WiFi\n• Video conferencing facilities\n• Online learning management system\n• Digital notice boards",
+      text: "🏗️ Campus Facilities\n\n📚 Academic Facilities:\nCentral Library: 50,000+ books, digital resources, research databases\nComputer Labs: 200+ workstations with latest software\nScience Labs: Physics, Chemistry, Biology labs\nLanguage Lab: For English and communication skills\nSeminar Halls: Fully equipped with multimedia\n\n🏃‍♂️ Sports & Recreation:\nMulti-purpose sports complex\nIndoor gymnasium\nCricket ground\nBasketball and volleyball courts\nTable tennis facility\nFitness center\n\n🏥 Support Services:\nMedical center with qualified staff\nCounseling and career guidance\nIT support services\nBanking facilities\nPrayer areas (separate for men and women)\nCafeteria and food courts\n\n🌐 Technology Infrastructure:\nCampus-wide WiFi\nVideo conferencing facilities\nOnline learning management system\nDigital notice boards",
       buttons: [
         { text: "📱 Virtual Campus Tour", action: "virtual_tour" },
         { text: "📍 Campus Map", action: "campus_map" },
         { text: "⏰ Facility Timings", action: "facility_timings" }
       ]
     },
-
     accommodation: {
-      text: "🏠 Student Accommodation\n\n🏢 On-Campus Hostels:\n• Separate hostels for male and female students\n• Furnished rooms with study tables and wardrobes\n• Common rooms with TV and recreational facilities\n• 24/7 security and warden supervision\n• Mess facility with nutritious meals\n• Laundry services available\n\n🏡 Off-Campus Options:\n• University-approved private hostels\n• Shared apartments near campus\n• Local family accommodations\n• Rental assistance from student affairs\n\n💰 Accommodation Fees:\n• On-campus hostel: PKR 15,000-20,000/semester\n• Mess charges: PKR 12,000-15,000/month\n• Private accommodations vary\n\n📋 Hostel Rules:\n• Curfew timings strictly followed\n• No smoking or prohibited items\n• Regular room inspections\n• Guest policy regulations\n• Academic performance monitoring",
+      text: "🏠 Student Accommodation\n\n🏢 On-Campus Hostels:\nSeparate hostels for male and female students\nFurnished rooms with study tables and wardrobes\nCommon rooms with TV and recreational facilities\n24/7 security and warden supervision\nMess facility with nutritious meals\nLaundry services available\n\n🏡 Off-Campus Options:\nUniversity-approved private hostels\nShared apartments near campus\nLocal family accommodations\nRental assistance from student affairs\n\n💰 Accommodation Fees:\nOn-campus hostel: PKR 15,000-20,000/semester\nMess charges: PKR 12,000-15,000/month\nPrivate accommodations vary\n\n📋 Hostel Rules:\nCurfew timings strictly followed\nNo smoking or prohibited items\nRegular room inspections\nGuest policy regulations\nAcademic performance monitoring",
       buttons: [
         { text: "📝 Hostel Application", action: "hostel_application" },
         { text: "🍽️ Mess Menu", action: "mess_menu" },
         { text: "📞 Hostel Contact", action: "hostel_contact" }
       ]
     },
-
-    // Fee Structure
     fees: {
-      text: "💰 Fee Structure (Per Semester)\n\n🎓 Undergraduate Programs:\n• BS Computer Science: PKR 85,000\n• BS Software Engineering: PKR 85,000\n• BS Information Technology: PKR 80,000\n• BS Business Administration: PKR 70,000\n• BS Economics: PKR 65,000\n• BS English/Mass Comm: PKR 60,000\n\n🎓 Graduate Programs:\n• MS Computer Science: PKR 95,000\n• MS Management Sciences: PKR 85,000\n• MBA: PKR 90,000\n• M.Phil Programs: PKR 75,000\n\n📋 Additional Charges:\n• Admission Fee: PKR 10,000 (one-time)\n• Security Deposit: PKR 5,000 (refundable)\n• Lab Fee: PKR 5,000-10,000/semester\n• Library Fee: PKR 2,000/semester\n• Student Activity Fee: PKR 1,000/semester\n\n💳 Payment Options:\n• Bank challan (recommended)\n• Online banking\n• Credit/debit cards\n• Installment plans available",
+      text: "💰 Fee Structure (Per Semester)\n\n🎓 Undergraduate Programs:\nBS Computer Science: PKR 85,000\nBS Software Engineering: PKR 85,000\nBS Information Technology: PKR 80,000\nBS Business Administration: PKR 70,000\nBS Economics: PKR 65,000\nBS English/Mass Comm: PKR 60,000\n\n🎓 Graduate Programs:\nMS Computer Science: PKR 95,000\nMS Management Sciences: PKR 85,000\nMBA: PKR 90,000\nM.Phil Programs: PKR 75,000\n\n📋 Additional Charges:\nAdmission Fee: PKR 10,000 (one-time)\nSecurity Deposit: PKR 5,000 (refundable)\nLab Fee: PKR 5,000-10,000/semester\nLibrary Fee: PKR 2,000/semester\nStudent Activity Fee: PKR 1,000/semester\n\n💳 Payment Options:\nBank challan (recommended)\nOnline banking\nCredit/debit cards\nInstallment plans available",
       buttons: [
         { text: "🎓 Scholarships", action: "scholarships" },
         { text: "💳 Payment Methods", action: "payment_methods" },
@@ -114,9 +102,8 @@ export const chatResponses = {
         { text: "💰 Financial Aid", action: "financial_aid" }
       ]
     },
-
     scholarships: {
-      text: "🎓 Scholarship Opportunities\n\n🏆 Merit-Based Scholarships:\n• 100% Tuition Fee Waiver: For position holders\n• 50% Fee Concession: For top 5% students\n• 25% Fee Reduction: For good academic performance\n• Semester-wise renewal based on CGPA\n\n💝 Need-Based Financial Aid:\n• Up to 75% fee concession for deserving students\n• Monthly stipends for exceptional cases\n• Work-study programs available\n• Emergency financial assistance\n\n🏛️ Government Scholarships:\n• Higher Education Commission (HEC) scholarships\n• Provincial government scholarships\n• Prime Minister's Youth Program\n• Overseas scholarship programs\n\n🌟 Special Scholarships:\n• Sports scholarships for talented athletes\n• Cultural activities scholarships\n• Community service scholarships\n• Alumni-sponsored scholarships\n\n📋 Application Process:\n• Submit scholarship application with admission\n• Provide income certificates for need-based aid\n• Maintain required CGPA for renewal\n• Regular review and assessment",
+      text: "🎓 Scholarship Opportunities\n\n🏆 Merit-Based Scholarships:\n100% Tuition Fee Waiver: For position holders\n50% Fee Concession: For top 5% students\n25% Fee Reduction: For good academic performance\nSemester-wise renewal based on CGPA\n\n💝 Need-Based Financial Aid:\nUp to 75% fee concession for deserving students\nMonthly stipends for exceptional cases\nWork-study programs available\nEmergency financial assistance\n\n🏛️ Government Scholarships:\nHigher Education Commission (HEC) scholarships\nProvincial government scholarships\nPrime Minister's Youth Program\nOverseas scholarship programs\n\n🌟 Special Scholarships:\nSports scholarships for talented athletes\nCultural activities scholarships\nCommunity service scholarships\nAlumni-sponsored scholarships\n\n📋 Application Process:\nSubmit scholarship application with admission\nProvide income certificates for need-based aid\nMaintain required CGPA for renewal\nRegular review and assessment",
       buttons: [
         { text: "📝 Apply for Scholarship", action: "scholarship_apply" },
         { text: "📋 Eligibility Criteria", action: "scholarship_criteria" },
@@ -124,29 +111,24 @@ export const chatResponses = {
         { text: "🎓 Scholarships Home", action: "scholarships_home" }
       ]
     },
-
-    // Contact Information
     contact_admissions: {
-      text: "📞 Contact Admissions Office\n\n📍 Main Campus:\nKarakoram International University\nGilgit, Gilgit-Baltistan, Pakistan\n\n📞 Phone Numbers:\n• Main Office: +92-5811-960008\n• Admissions: +92-5811-960009\n• Registrar: +92-5811-960010\n\n📧 Email Addresses:\n• General: info@kiu.edu.pk\n• Admissions: admissions@kiu.edu.pk\n• Academic: academic@kiu.edu.pk\n\n🕐 Office Hours:\n• Monday - Friday: 8:00 AM - 4:00 PM\n• Saturday: 8:00 AM - 12:00 PM\n• Sunday: Closed\n\n💬 Other Contact Methods:\n• WhatsApp: +92-300-5811960\n• Facebook: KIU Official\n• Website: www.kiu.edu.pk\n\n🏢 Regional Offices:\n• Islamabad Liaison Office\n• Karachi Information Center",
+      text: "📞 Contact Admissions Office\n\n📍 Main Campus:\nKarakoram International University\nGilgit, Gilgit-Baltistan, Pakistan\n\n📞 Phone Numbers:\nMain Office: +92-5811-960008\nAdmissions: +92-5811-960009\nRegistrar: +92-5811-960010\n\n📧 Email Addresses:\nGeneral: info@kiu.edu.pk\nAdmissions: admissions@kiu.edu.pk\nAcademic: academic@kiu.edu.pk\n\n🕐 Office Hours:\nMonday - Friday: 8:00 AM - 4:00 PM\nSaturday: 8:00 AM - 12:00 PM\nSunday: Closed\n\n💬 Other Contact Methods:\nWhatsApp: +92-300-5811960\nFacebook: KIU Official\nWebsite: www.kiu.edu.pk\n\n🏢 Regional Offices:\nIslamabad Liaison Office\nKarachi Information Center",
       buttons: [
         { text: "🗺️ Campus Location", action: "campus_location" },
         { text: "📱 Social Media", action: "social_media" },
         { text: "🚌 How to Reach", action: "directions" }
       ]
     },
-
-    // Default and other responses
     website: {
-      text: "🌐 Official KIU Website\n\nVisit our official website for:\n• Latest announcements and news\n• Detailed program information\n• Faculty profiles and research\n• Student portal access\n• Online application system\n• Academic calendar\n• Examination schedules\n\nWebsite: www.kiu.edu.pk\n\nStudent Portal Features:\n• Check admission status\n• View academic transcripts\n• Download fee challans\n• Access course materials\n• Submit assignments\n• Check examination results",
+      text: "🌐 Official KIU Website\n\nVisit our official website for:\nLatest announcements and news\nDetailed program information\nFaculty profiles and research\nStudent portal access\nOnline application system\nAcademic calendar\nExamination schedules\n\nWebsite: www.kiu.edu.pk\n\nStudent Portal Features:\nCheck admission status\nView academic transcripts\nDownload fee challans\nAccess course materials\nSubmit assignments\nCheck examination results",
       buttons: [
         { text: "📱 Student Portal", action: "student_portal" },
         { text: "📰 News & Events", action: "news_events" },
         { text: "📚 Academic Resources", action: "academic_resources" }
       ]
     },
-
     default: {
-      text: "Welcome to KIU Assistant! 🎓\n\nI can provide detailed information about Karakoram International University including:\n\n• Admissions: Application process, requirements, deadlines\n• Academic Programs: Undergraduate, graduate, and doctoral programs\n• Campus Life: Facilities, accommodation, student activities\n• Fee Structure: Tuition fees, scholarships, financial aid\n• Contact Information: Office details, directions, support\n\nWhat specific information would you like to know about KIU?",
+      text: "Welcome to KIU Assistant! 🎓\n\nI can provide detailed information about Karakoram International University including:\n\nAdmissions: Application process, requirements, deadlines\nAcademic Programs: Undergraduate, graduate, and doctoral programs\nCampus Life: Facilities, accommodation, student activities\nFee Structure: Tuition fees, scholarships, financial aid\nContact Information: Office details, directions, support\n\nWhat specific information would you like to know about KIU?",
       buttons: [
         { text: "📋 Admissions", action: "admissions" },
         { text: "📚 Academic Programs", action: "academics" },
@@ -164,9 +146,9 @@ export const chatResponses = {
   },
 
   ur: {
-    // Urdu translations with enhanced content
+    // Urdu sections, remove any stars and use plain text
     admissions: {
-      text: "📋 داخلہ کی معلومات\n\nقراقرم انٹرنیشنل یونیورسٹی (KIU) مختلف شعبوں میں انڈرگریجویٹ اور گریجویٹ پروگرام پیش کرتی ہے:\n\n• درخواست کی مدت: بہار (جنوری-فروری), خزاں (جولائی-اگست)\n• داخلہ ٹیسٹ: HEC منظور شدہ NTS ٹیسٹ ضروری\n• کم سے کم اہلیت: انٹرمیڈیٹ میں 50% نمبرات\n• مطلوبہ دستاویزات: تعلیمی سرٹیفکیٹس، شناختی کارڈ، تصاویر، ڈومیسائل\n• انتخاب کا عمل: میرٹ کی بنیاد پر انٹرویو کے ساتھ",
+      text: "📋 داخلہ کی معلومات\n\nقراقرم انٹرنیشنل یونیورسٹی (KIU) مختلف شعبوں میں انڈرگریجویٹ اور گریجویٹ پروگرام پیش کرتی ہے:\n\nدرخواست کی مدت: بہار (جنوری-فروری), خزاں (جولائی-اگست)\nداخلہ ٹیسٹ: HEC منظور شدہ NTS ٹیسٹ ضروری\nکم سے کم اہلیت: انٹرمیڈیٹ میں 50% نمبرات\nمطلوبہ دستاویزات: تعلیمی سرٹیفکیٹس، شناختی کارڈ، تصاویر، ڈومیسائل\nانتخاب کا عمل: میرٹ کی بنیاد پر انٹرویو کے ساتھ",
       buttons: [
         { text: "📝 درخواست کا عمل", action: "application_process" },
         { text: "📋 داخلہ ٹیسٹ", action: "entry_test" },
@@ -175,9 +157,8 @@ export const chatResponses = {
         { text: "📞 داخلہ سے رابطہ", action: "contact_admissions" }
       ]
     },
-
     academics: {
-      text: "📚 تعلیمی پروگرام\n\nKIU مختلف شعبوں میں جدید تعلیمی پروگرام پیش کرتا ہے:\n\n🎓 انڈرگریجویٹ پروگرام (4 سال):\n• BS کمپیوٹر سائنس\n• BS سافٹ ویئر انجینئرنگ\n• BS انفارمیشن ٹیکنالوجی\n• BS بزنس ایڈمنسٹریشن\n• BS اکنامکس\n• BS انگلش لٹریچر\n• BS ماس کمیونیکیشن\n\n🎓 گریجویٹ پروگرام:\n• MS کمپیوٹر سائنس\n• MS مینجمنٹ سائنسز\n• MBA پروگرام\n• M.Phil اور PhD پروگرام",
+      text: "📚 تعلیمی پروگرام\n\nKIU مختلف شعبوں میں جدید تعلیمی پروگرام پیش کرتا ہے:\n\n🎓 انڈرگریجویٹ پروگرام (4 سال):\nBS کمپیوٹر سائنس\nBS سافٹ ویئر انجینئرنگ\nBS انفارمیشن ٹیکنالوجی\nBS بزنس ایڈمنسٹریشن\nBS اکنامکس\nBS انگلش لٹریچر\nBS ماس کمیونیکیشن\n\n🎓 گریجویٹ پروگرام:\nMS کمپیوٹر سائنس\nMS مینجمنٹ سائنسز\nMBA پروگرام\nM.Phil اور PhD پروگرام",
       buttons: [
         { text: "💻 کمپیوٹنگ پروگرام", action: "computing" },
         { text: "💼 بزنس پروگرام", action: "business" },
@@ -189,9 +170,8 @@ export const chatResponses = {
         { text: "🗓️ Academic Calendar", action: "academic_calendar" }
       ]
     },
-
     campus: {
-      text: "🏫 KIU میں کیمپس لائف\n\nگلگت بلتستان کے خوبصورت علاقے میں جیورنت کیمپس لائف:\n\n🏗️ جدید سہولات:\n• جدید کمپیوٹر لیبز\n• سائنس کی لیبارٹریاں\n• مرکزی لائبریری\n• کھیل کمپلیکس\n• تیز رفتار انٹرنیٹ\n\n🎭 طلبا کی سرگرمیاں:\n• طلبا تنظیمیں\n• ثقافتی تہوار\n• کھیل مقابلے\n• تقریری مقابلے\n• کمیونٹی سروس\n\n🌄 منفرد مقام:\n• پہاڑی کیمپس\n• صاف ماحول\n• محفوظ ماحول",
+      text: "🏫 KIU میں کیمپس لائف\n\nگلگت بلتستان کے خوبصورت علاقے میں جیورنت کیمپس لائف:\n\n🏗️ جدید سہولات:\nجدید کمپیوٹر لیبز\nسائنس کی لیبارٹریاں\nمرکزی لائبریری\nکھیل کمپلیکس\nتیز رفتار انٹرنیٹ\n\n🎭 طلبا کی سرگرمیاں:\nطلبا تنظیمیں\nثقافتی تہوار\nکھیل مقابلے\nتقریری مقابلے\nکمیونٹی سروس\n\n🌄 منفرد مقام:\nپہاڑی کیمپس\nصاف ماحول\nمحفوظ ماحول",
       buttons: [
         { text: "🏗️ کیمپس کی سہولات", action: "facilities" },
         { text: "🏠 رہائش", action: "accommodation" },
@@ -199,18 +179,24 @@ export const chatResponses = {
         { text: "🚌 نقل و حمل", action: "transport" }
       ]
     },
-
+    facilities: {
+      text: "🏗️ کیمپس کی سہولات\n\nتعلیمی سہولتیں:\nمرکزی لائبریری: 50,000 سے زائد کتب، ڈیجیٹل وسائل\nکمپیوٹر لیبز\nسائنس لیبز\nزبان کی لیب\nسیمینار ہال\n\nکھیل اور تفریح:\nاسپورٹس کمپلیکس\nجیم\nکرکٹ گراؤنڈ\nباسکٹ بال اور والی بال کورٹ\nٹیبل ٹینس\nفٹنس سینٹر\n\nسہولیات:\nمیڈیکل سینٹر\nکیرئر گائیڈنس\nآئی ٹی سپورٹ\nبینکنگ\nنماز کی جگہیں\nکیفےٹیریا اور فوڈ کورٹس\n\nٹیکنالوجی:\nوائی فائی\nویڈیو کانفرنسنگ\nآن لائن ایل ایم ایس\nڈیجیٹل نوٹس بورڈز",
+      buttons: [
+        { text: "📱 Virtual Campus Tour", action: "virtual_tour" },
+        { text: "📍 Campus Map", action: "campus_map" },
+        { text: "⏰ Facility Timings", action: "facility_timings" }
+      ]
+    },
     fees: {
-      text: "💰 فیس کی تفصیلات (فی سمسٹر)\n\n🎓 انڈرگریجویٹ پروگرام:\n• BS کمپیوٹر سائنس: PKR 85,000\n• BS سافٹ ویئر انجینئرنگ: PKR 85,000\n• BS بزنس ایڈمنسٹریشن: PKR 70,000\n• BS اکنامکس: PKR 65,000\n\n🎓 گریجویٹ پروگرام:\n• MS کمپیوٹر سائنس: PKR 95,000\n• MBA: PKR 90,000\n\n📋 اضافی چارجز:\n• داخلہ فیس: PKR 10,000\n• سیکیورٹی ڈپازٹ: PKR 5,000\n• لیب فیس: PKR 5,000-10,000",
+      text: "💰 فیس کی تفصیلات (فی سمسٹر)\n\n🎓 انڈرگریجویٹ پروگرام:\nBS کمپیوٹر سائنس: PKR 85,000\nBS سافٹ ویئر انجینئرنگ: PKR 85,000\nBS بزنس ایڈمنسٹریشن: PKR 70,000\nBS اکنامکس: PKR 65,000\n\n🎓 گریجویٹ پروگرام:\nMS کمپیوٹر سائنس: PKR 95,000\nMBA: PKR 90,000\n\n📋 اضافی چارجز:\nداخلہ فیس: PKR 10,000\nسیکیورٹی ڈپازٹ: PKR 5,000\nلیب فیس: PKR 5,000-10,000",
       buttons: [
         { text: "🎓 وظائف", action: "scholarships" },
         { text: "💳 ادائیگی کے طریقے", action: "payment_methods" },
         { text: "📊 فیس کیلکولیٹر", action: "fee_calculator" }
       ]
     },
-
     default: {
-      text: "KIU اسسٹنٹ میں خوش آمدید! 🎓\n\nمیں قراقرم انٹرنیشنل یونیورسٹی کے بارے میں تفصیلی معلومات فراہم کر سکتا ہوں:\n\n• داخلہ: درخواست کا عمل، اہلیت، آخری تاریخیں\n• تعلیمی پروگرام: انڈرگریجویٹ، گریجویٹ پروگرام\n• کیمپس لائف: سہولات، رہائش، طلبا کی سرگرمیاں\n• فیس: ٹیوشن فیس، وظائف، مالی امداد\n• رابطے کی معلومات: دفتری تفصیلات، رہنمائی\n\nآپ KIU کے بارے میں کون سی خاص معلومات چاہتے ہیں؟",
+      text: "KIU اسسٹنٹ میں خوش آمدید! 🎓\n\nمیں قراقرم انٹرنیشنل یونیورسٹی کے بارے میں تفصیلی معلومات فراہم کر سکتا ہوں:\n\nداخلہ: درخواست کا عمل، اہلیت، آخری تاریخیں\nتعلیمی پروگرام: انڈرگریجویٹ، گریجویٹ پروگرام\nکیمپس لائف: سہولات، رہائش، طلبا کی سرگرمیاں\nفیس: ٹیوشن فیس، وظائف، مالی امداد\nرابطے کی معلومات: دفتری تفصیلات، رہنمائی\n\nآپ KIU کے بارے میں کون سی خاص معلومات چاہتے ہیں؟",
       buttons: [
         { text: "📋 داخلہ", action: "admissions" },
         { text: "📚 تعلیمی پروگرام", action: "academics" },
