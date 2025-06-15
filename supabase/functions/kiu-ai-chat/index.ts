@@ -152,7 +152,8 @@ serve(async (req) => {
 
       console.log('Processing message:', message, 'Language:', language);
 
-      const completionPrompt = getSystemPrompt(language);
+      // FIX: allow modification of completionPrompt
+      let completionPrompt = getSystemPrompt(language);
       if (message.toLowerCase().includes('lms')) {
         completionPrompt += '\n\nRecent LMS FAQs:\n';
         for (const f of LMS_FAQS) {
@@ -280,13 +281,12 @@ serve(async (req) => {
           url: 'https://lms.kiu.edu.pk',
           icon: 'external'
         });
-        if (messageLower.includes('faq') || messageLower.includes('problem') || messageLower.includes('help')) {
-          links.push({
-            text: language === 'en' ? 'LMS FAQs' : 'LMS اکثر پوچھے گئے سوالات',
-            url: 'https://lms.kiu.edu.pk/faqs',
-            icon: 'file' // file for FAQs for visual difference
-          });
-        }
+        // Always push (not conditional) FAQ link and use "external" icon so frontend renders as a button
+        links.push({
+          text: language === 'en' ? 'LMS FAQs' : 'LMS اکثر پوچھے گئے سوالات',
+          url: 'https://lms.kiu.edu.pk/faqs',
+          icon: 'external'
+        });
       }
       
       if (messageLower.includes('faculty')) {
