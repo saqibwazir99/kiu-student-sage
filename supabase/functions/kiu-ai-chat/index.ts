@@ -196,13 +196,13 @@ serve(async (req) => {
     
     if (messageLower.includes('lms')) {
       links.push({
-        text: language === 'en' ? '📚 KIU LMS Portal' : '📚 KIU LMS پورٹل',
+        text: language === 'en' ? 'KIU LMS Portal' : 'KIU LMS پورٹل',
         url: 'https://lms.kiu.edu.pk',
         icon: 'external'
       });
       if (messageLower.includes('faq') || messageLower.includes('problem') || messageLower.includes('help')) {
         links.push({
-          text: language === 'en' ? '❓ LMS FAQs' : '❓ LMS اکثر پوچھے گئے سوالات',
+          text: language === 'en' ? 'LMS FAQs' : 'LMS اکثر پوچھے گئے سوالات',
           url: 'https://lms.kiu.edu.pk/faqs',
           icon: 'external'
         });
