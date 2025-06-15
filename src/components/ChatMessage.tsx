@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { User, FileText, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,17 +28,20 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  // Track which links are rendered inline to avoid double rendering
+  const inlineLinkUrls = new Set<string>();
+
   // Helper: Find a suitable link by (partial) label matching actual message text 
   const findLinkForLabel = (label: string, links: NonNullable<Message["links"]>) => {
-    // Try direct match, or "Faculty of Life Sciences" in the link.text
-    return (
+    const found =
       links.find(
         (l) =>
           l.text &&
           (l.text.toLowerCase().includes(label.toLowerCase()) ||
             label.toLowerCase().includes(l.text.toLowerCase()))
-      ) || links[0] // fallback: just return first link for robustness
-    );
+      ) || links[0];
+    if (found) inlineLinkUrls.add(found.url);
+    return found;
   };
 
   // Enhanced function to render text, handling:
@@ -61,7 +63,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
         const before = text.slice(lastIdx, match.index);
         if (before) parts.push(before);
 
-        // Match[1] is the faculty label e.g. "Faculty of Life Sciences"
+        // Match[1] is label
         const label = match[1].trim();
         const foundLink = findLinkForLabel(label, message.links);
         if (foundLink) {
@@ -81,7 +83,6 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
             </Button>
           );
         } else {
-          // fallback: just show placeholder text
           parts.push(" [link]");
         }
         lastIdx = facultyLinkRegex.lastIndex;
@@ -90,14 +91,12 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
         parts.push(text.slice(lastIdx));
       }
 
-      // Now, for the rest of the text, do standard link rendering. (Some duplication from before, but this is for clarity.)
       return parts.map((part, i) =>
         typeof part === "string"
           ? renderLinksInPlainText(part, i)
           : part
       );
     } else {
-      // No special [link] handling needed, just render normally.
       return renderLinksInPlainText(text, 0);
     }
   };
@@ -217,6 +216,11 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
   );
 
   if (message.isBot) {
+    // Only show links that were NOT rendered inline
+    const linksNotUsedInline = (message.links || []).filter(
+      (link) => !inlineLinkUrls.has(link.url)
+    );
+
     return (
       <div className="flex items-start space-x-4 animate-fade-in mb-6">
         <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0 shadow-sm border border-gray-200 p-1">
@@ -230,9 +234,9 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
           <div className="bg-gradient-to-br from-green-100 via-green-50 to-white rounded-3xl rounded-tl-lg p-6 shadow-md border border-green-100 hover:shadow-lg transition-shadow duration-200 font-sans">
             {renderStyledMessageContent(message.text)}
           </div>
-          {message.links && message.links.length > 0 && (
+          {linksNotUsedInline.length > 0 && (
             <div className="space-y-2 ml-2">
-              {message.links.map((link, index) => (
+              {linksNotUsedInline.map((link, index) => (
                 <Button
                   key={index}
                   variant="outline"
