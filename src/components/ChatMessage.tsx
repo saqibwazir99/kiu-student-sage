@@ -134,7 +134,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
           list-style-position: outside !important;
         }
         .chat-bubble-content li {
-          margin-bottom: 0.20em;
+          margin-bottom: 0.7em; /* Increased spacing between bullets for appeal */
           padding-left: 0.20em;
         }
       `}</style>
