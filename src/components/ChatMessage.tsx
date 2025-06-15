@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { User, FileText, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,57 +28,116 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  // Function to render text with hyperlinks
+  // Enhanced function to render text with hand-arrow + link, or detected hyperlinks
   const renderTextWithLinks = (text: string) => {
+    // First, handle "👉" directly followed by a URL (optionally inside brackets or not)
+    // We'll render: [ ... plain text ... ][👉][actual link][ ... plain text ... ]
+    const arrowLinkPattern = /(👉)\s*(?:\[)?(https?:\/\/[^\]\s]+)(?:\])?/g;
     const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const parts = text.split(urlRegex);
-    
-    return parts.map((part, index) => {
-      if (urlRegex.test(part)) {
-        return (
+    const parts: React.ReactNode[] = [];
+
+    let lastIndex = 0;
+    let match;
+
+    // For every "👉 [url]" or "👉 url"
+    while ((match = arrowLinkPattern.exec(text)) !== null) {
+      // Push any text before the arrow
+      if (match.index > lastIndex) {
+        // Now, we have text before, may contain ordinary links too.
+        const beforeText = text.substring(lastIndex, match.index);
+        beforeText.split(urlRegex).forEach((chunk, idx) => {
+          if (urlRegex.test(chunk)) {
+            parts.push(
+              <a
+                key={`url-pre-${lastIndex}-${idx}`}
+                href={chunk}
+                onClick={(e) => handleLinkClick(chunk, e)}
+                className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {chunk}
+              </a>
+            );
+          } else if (chunk) {
+            parts.push(chunk);
+          }
+        });
+      }
+
+      // Push hand arrow and link together, minimal space
+      const url = match[2];
+      parts.push(
+        <span key={`arrow-link-${match.index}`} className="inline-flex items-center gap-1 ml-1">
+          <span className="font-semibold select-none" aria-label="link">{match[1]}</span>
           <a
-            key={index}
-            href={part}
-            onClick={(e) => handleLinkClick(part, e)}
-            className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all"
+            href={url}
+            onClick={(e) => handleLinkClick(url, e)}
+            className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all font-medium"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {part}
+            {url}
           </a>
-        );
-      }
-      return part;
-    });
+        </span>
+      );
+      lastIndex = match.index + match[0].length;
+    }
+
+    // Any remaining text after the last arrow+link
+    if (lastIndex < text.length) {
+      const rest = text.substring(lastIndex);
+      rest.split(urlRegex).forEach((chunk, idx) => {
+        if (urlRegex.test(chunk)) {
+          parts.push(
+            <a
+              key={`url-post-${lastIndex}-${idx}`}
+              href={chunk}
+              onClick={(e) => handleLinkClick(chunk, e)}
+              className="text-blue-600 underline hover:text-blue-800 cursor-pointer break-all"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {chunk}
+            </a>
+          );
+        } else if (chunk) {
+          parts.push(chunk);
+        }
+      });
+    }
+
+    return parts;
   };
 
-  // Helper to wrap message text in a div that gives better list styling
+  // More attractive, well-indented lists (bullets, numbers)
   const renderStyledMessageContent = (text: string) => (
     <div
-      // This class applies to the text content, controlling fonts, color, and also targetting <ul>, <li>, <ol> inside
       className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap font-medium font-sans"
       dir={language === 'ur' ? 'rtl' : 'ltr'}
-      // Styling for bullets/numbers in list
       style={{
-        // fallback in case Inter isn't loaded
         fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
       }}
     >
       <style>{`
         .chat-bubble-content ul, .chat-bubble-content ol {
-          padding-left: 1.35em;
-          margin-top: 0.15em;
-          margin-bottom: 0.3em;
-        }
-        .chat-bubble-content li {
-          margin-bottom: 0.18em;
-          padding-left: 0.2em;
+          padding-left: 2em !important;
+          margin-top: 0.2em;
+          margin-bottom: 0.5em;
         }
         .chat-bubble-content ul {
+          list-style-type: disc !important;
           list-style-position: outside !important;
         }
+        .chat-bubble-content ol {
+          list-style-type: decimal !important;
+          list-style-position: outside !important;
+        }
+        .chat-bubble-content li {
+          margin-bottom: 0.20em;
+          padding-left: 0.20em;
+        }
       `}</style>
-      {/* add a wrapper class for styling */}
       <span className="chat-bubble-content">
         {renderTextWithLinks(text)}
       </span>
@@ -98,10 +156,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
         </div>
         <div className="flex-1 space-y-3 max-w-4xl">
           <div className="bg-gradient-to-br from-green-100 via-green-50 to-white rounded-3xl rounded-tl-lg p-6 shadow-md border border-green-100 hover:shadow-lg transition-shadow duration-200 font-sans">
-            {/* font-sans uses Inter if loaded */}
             {renderStyledMessageContent(message.text)}
           </div>
-          
           {message.links && message.links.length > 0 && (
             <div className="space-y-2 ml-2">
               {message.links.map((link, index) => (
@@ -117,16 +173,13 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
                   className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 text-sm font-medium transition-all duration-200 hover:scale-105 shadow-sm cursor-pointer inline-flex items-center px-3 gap-1"
                   type="button"
                 >
-                  {/* icon comes JUST before text with little to no extra gap */}
                   {link.icon === 'file' && <FileText className="h-4 w-4 mr-1" />}
                   {link.icon === 'external' && <ExternalLink className="h-4 w-4 mr-1" />}
-                  {/* Place link text right after icon, minimal spacing */}
                   <span className="align-middle">{link.text}</span>
                 </Button>
               ))}
             </div>
           )}
-          
           <p className="text-xs text-gray-400 ml-2 font-medium">{formatTime(message.timestamp)}</p>
         </div>
       </div>
@@ -137,7 +190,6 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     <div className="flex items-start space-x-4 justify-end animate-fade-in mb-6">
       <div className="flex-1 space-y-2 max-w-3xl">
         <div className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-3xl rounded-tr-lg p-6 shadow-md ml-16 hover:shadow-lg transition-shadow duration-200 font-sans">
-          {/* Make sure user messages can have list styling too */}
           {renderStyledMessageContent(message.text)}
         </div>
         <p className="text-xs text-gray-400 text-right mr-2 font-medium">{formatTime(message.timestamp)}</p>
@@ -148,4 +200,3 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     </div>
   );
 };
-
