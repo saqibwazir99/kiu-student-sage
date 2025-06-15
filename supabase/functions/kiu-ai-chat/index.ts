@@ -260,12 +260,15 @@ serve(async (req) => {
     }
     
     if (messageLower.includes('essa wali')) {
-      // This will be handled by AI, but just in case, push the info as well
-      links.push({
-        text: language === 'en' ? 'KIU IT Section Info' : 'KIU آئی ٹی سیکشن کی معلومات',
-        url: 'https://www.kiu.edu.pk/office/it-section',
-        icon: 'external'
-      });
+      // This will be handled by AI, but do not add a broken link.
+      // Instead, optionally, refer to official website if desired.
+      if (!links.some(link => link.url.includes('kiu.edu.pk'))) {
+        links.push({
+          text: language === 'en' ? '🌐 KIU Official Website' : '🌐 KIU آفیشل ویب سائٹ',
+          url: 'https://kiu.edu.pk',
+          icon: 'external'
+        });
+      }
     }
     
     // Always include the main website link with correct URL
