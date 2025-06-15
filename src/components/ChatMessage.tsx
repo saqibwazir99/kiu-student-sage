@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { User, FileText, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -52,6 +53,39 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     });
   };
 
+  // Helper to wrap message text in a div that gives better list styling
+  const renderStyledMessageContent = (text: string) => (
+    <div
+      // This class applies to the text content, controlling fonts, color, and also targetting <ul>, <li>, <ol> inside
+      className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap font-medium font-sans"
+      dir={language === 'ur' ? 'rtl' : 'ltr'}
+      // Styling for bullets/numbers in list
+      style={{
+        // fallback in case Inter isn't loaded
+        fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
+      }}
+    >
+      <style>{`
+        .chat-bubble-content ul, .chat-bubble-content ol {
+          padding-left: 1.35em;
+          margin-top: 0.15em;
+          margin-bottom: 0.3em;
+        }
+        .chat-bubble-content li {
+          margin-bottom: 0.18em;
+          padding-left: 0.2em;
+        }
+        .chat-bubble-content ul {
+          list-style-position: outside !important;
+        }
+      `}</style>
+      {/* add a wrapper class for styling */}
+      <span className="chat-bubble-content">
+        {renderTextWithLinks(text)}
+      </span>
+    </div>
+  );
+
   if (message.isBot) {
     return (
       <div className="flex items-start space-x-4 animate-fade-in mb-6">
@@ -65,9 +99,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
         <div className="flex-1 space-y-3 max-w-4xl">
           <div className="bg-gradient-to-br from-green-100 via-green-50 to-white rounded-3xl rounded-tl-lg p-6 shadow-md border border-green-100 hover:shadow-lg transition-shadow duration-200 font-sans">
             {/* font-sans uses Inter if loaded */}
-            <div className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
-              {renderTextWithLinks(message.text)}
-            </div>
+            {renderStyledMessageContent(message.text)}
           </div>
           
           {message.links && message.links.length > 0 && (
@@ -82,12 +114,14 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
                     e.stopPropagation();
                     handleLinkClick(link.url);
                   }}
-                  className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 text-sm font-medium transition-all duration-200 hover:scale-105 shadow-sm cursor-pointer inline-flex items-center"
+                  className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 text-sm font-medium transition-all duration-200 hover:scale-105 shadow-sm cursor-pointer inline-flex items-center px-3 gap-1"
                   type="button"
                 >
-                  {link.icon === 'file' && <FileText className="h-4 w-4 mr-2" />}
-                  {link.icon === 'external' && <ExternalLink className="h-4 w-4 mr-2" />}
-                  {link.text}
+                  {/* icon comes JUST before text with little to no extra gap */}
+                  {link.icon === 'file' && <FileText className="h-4 w-4 mr-1" />}
+                  {link.icon === 'external' && <ExternalLink className="h-4 w-4 mr-1" />}
+                  {/* Place link text right after icon, minimal spacing */}
+                  <span className="align-middle">{link.text}</span>
                 </Button>
               ))}
             </div>
@@ -103,9 +137,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     <div className="flex items-start space-x-4 justify-end animate-fade-in mb-6">
       <div className="flex-1 space-y-2 max-w-3xl">
         <div className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-3xl rounded-tr-lg p-6 shadow-md ml-16 hover:shadow-lg transition-shadow duration-200 font-sans">
-          <div className="leading-relaxed text-base font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
-            {renderTextWithLinks(message.text)}
-          </div>
+          {/* Make sure user messages can have list styling too */}
+          {renderStyledMessageContent(message.text)}
         </div>
         <p className="text-xs text-gray-400 text-right mr-2 font-medium">{formatTime(message.timestamp)}</p>
       </div>
@@ -115,3 +148,4 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
     </div>
   );
 };
+
