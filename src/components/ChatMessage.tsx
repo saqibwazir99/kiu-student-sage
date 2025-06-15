@@ -64,7 +64,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, language }) =
           />
         </div>
         <div className="flex-1 space-y-3 max-w-4xl">
-          <div className="bg-white rounded-3xl rounded-tl-lg p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-200">
+          <div className="bg-gradient-to-br from-green-100 via-green-50 to-white rounded-3xl rounded-tl-lg p-6 shadow-md border border-green-100 hover:shadow-lg transition-shadow duration-200">
             <div className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap font-medium" dir={language === 'ur' ? 'rtl' : 'ltr'}>
               {renderTextWithLinks(message.text)}
             </div>
