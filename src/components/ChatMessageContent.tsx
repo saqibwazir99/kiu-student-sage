@@ -1,4 +1,3 @@
-
 import React from "react";
 import { ChatInlineLinkButton } from "./ChatInlineLinkButton";
 
@@ -139,6 +138,10 @@ export const ChatMessageContent: React.FC<Props> = ({
         .chat-bubble-content li {
           margin-bottom: 0.75em !important;
           padding-left: 0.20em;
+        }
+        /* New: add gap between list items (margin-bottom) */
+        .chat-bubble-content li + li {
+          margin-top: 0.5em !important;
         }
       `}</style>
       <span className="chat-bubble-content">
