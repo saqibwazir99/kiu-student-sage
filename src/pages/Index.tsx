@@ -3,15 +3,38 @@ import { ChatBot } from '../components/ChatBot';
 import { useEffect } from "react";
 import { fetchCrawledContent } from "@/utils/fetchCrawledContent";
 
+const LMS_FAQ_URL = "https://lms.kiu.edu.pk/faqs";
+
+/** Extract and summarize the FAQ content from crawled text */
+function summarizeLMSFAQs(text) {
+  // Very basic summary extractor: extracts 8-10 top QA pairs, returns as array
+  // For a real app, would use AI-powered summarization.
+  // For this example, just grab some Q/A like "Q: ... A: ..." pairs from the first chunk
+  const pairs = [];
+  const regex = /Q(?:\.|:)?\s+([^\n]+)[\n\r]+A(?:\.|:)?\s+([^\n]+)/gi;
+  let m;
+  while ((m = regex.exec(text)) && pairs.length < 10) {
+    pairs.push({ q: m[1].trim(), a: m[2].trim() });
+  }
+  return pairs;
+}
+
 const Index = () => {
   useEffect(() => {
     // Only run once, fetch scholarships and student affair content
     fetchCrawledContent([
       "https://studentaffairs.kiu.edu.pk/",
       "https://www.kiu.edu.pk/center/scholarships-2",
+      LMS_FAQ_URL,
     ]).then(results => {
-      console.log("Crawled Student Affairs & Scholarships content:", results);
-      // You can review this output in the browser console!
+      console.log("Crawled Student Affairs, Scholarships & LMS FAQ content:", results);
+      // Find LMS crawled content and store summarized Q/A to localStorage
+      const lmsFaq = (results || []).find(r => r.url === LMS_FAQ_URL)?.content;
+      if (lmsFaq) {
+        const faqs = summarizeLMSFAQs(lmsFaq);
+        localStorage.setItem('lms_faq_pairs', JSON.stringify(faqs));
+        console.log("Extracted LMS FAQs:", faqs);
+      }
     });
   }, []);
 
