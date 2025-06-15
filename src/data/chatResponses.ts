@@ -1,4 +1,3 @@
-
 export const chatResponses = {
   en: {
     // Admissions
@@ -47,7 +46,11 @@ export const chatResponses = {
         { text: "💻 Computing Programs", action: "computing" },
         { text: "💼 Business Programs", action: "business" },
         { text: "📖 Humanities", action: "humanities" },
-        { text: "🎓 Graduate Studies", action: "graduate_programs" }
+        { text: "🎓 Graduate Studies", action: "graduate_programs" },
+        { text: "👩‍🔬 Life Sciences Faculty", action: "faculty_life_sciences" },
+        { text: "📚 Natural Sciences Faculty", action: "faculty_natural_sciences" },
+        { text: "🧑‍🎓 Social Sciences Faculty", action: "faculty_social_sciences" },
+        { text: "🗓️ Academic Calendar", action: "academic_calendar" }
       ]
     },
 
@@ -117,7 +120,8 @@ export const chatResponses = {
       buttons: [
         { text: "📝 Apply for Scholarship", action: "scholarship_apply" },
         { text: "📋 Eligibility Criteria", action: "scholarship_criteria" },
-        { text: "📄 Required Documents", action: "scholarship_docs" }
+        { text: "📄 Required Documents", action: "scholarship_docs" },
+        { text: "🎓 Scholarships Home", action: "scholarships_home" }
       ]
     },
 
@@ -171,7 +175,11 @@ export const chatResponses = {
         { text: "💻 کمپیوٹنگ پروگرام", action: "computing" },
         { text: "💼 بزنس پروگرام", action: "business" },
         { text: "📖 ہیومینٹیز", action: "humanities" },
-        { text: "🎓 گریجویٹ سٹڈیز", action: "graduate_programs" }
+        { text: "🎓 گریجویٹ سٹڈیز", action: "graduate_programs" },
+        { text: "👩‍🔬 Life Sciences Faculty", action: "faculty_life_sciences" },
+        { text: "📚 Natural Sciences Faculty", action: "faculty_natural_sciences" },
+        { text: "🧑‍🎓 Social Sciences Faculty", action: "faculty_social_sciences" },
+        { text: "🗓️ Academic Calendar", action: "academic_calendar" }
       ]
     },
 
@@ -203,5 +211,24 @@ export const chatResponses = {
         { text: "💰 فیسیں اور وظائف", action: "fees" }
       ]
     }
+  },
+
+  essa_wali: {
+    text: "Essa Wali is a web developer currently working in the KIU IT Section.",
+    buttons: [
+      { text: "🌐 KIU IT Section", action: "kiu_it_section" }
+    ]
+  },
+  lms: {
+    text: "📚 **KIU LMS Portal**\n\nAccess all your course materials, submit assignments, and communicate with faculty on the official LMS:\n👉 https://lms.kiu.edu.pk\n\nIf you have questions or face issues, please check the FAQs:\n👉 https://lms.kiu.edu.pk/faqs",
+    buttons: [
+      { text: "❓ LMS FAQs", action: "lms_faqs" }
+    ]
+  },
+  academic_calendar: {
+    text: "🗓️ **KIU Academic Calendar**\n\nStay updated with important academic dates here:\n👉 https://www.kiu.edu.pk/calendar"
+  },
+  advance_studies: {
+    text: "🔬 **Advance Studies & Research Office**\nFind out about research programs, proposals, and more:\n👉 https://www.kiu.edu.pk/office/advance-studies-research"
   }
 };

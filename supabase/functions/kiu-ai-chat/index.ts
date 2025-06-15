@@ -18,11 +18,22 @@ GENERAL INFORMATION:
 - Official Website: kiu.edu.pk
 - Admissions Portal: admissions.kiu.edu.pk
 - Student Affairs: studentaffairs.kiu.edu.pk
+- LMS Portal: lms.kiu.edu.pk
+- Academic Calendar: https://www.kiu.edu.pk/calendar
+- Advance Studies & Research: https://www.kiu.edu.pk/office/advance-studies-research
+- Scholarships: https://www.kiu.edu.pk/center/scholarships-2
+- Campus Facilities: https://www.kiu.edu.pk/facilities/campus-facilities
+- Faculty of Life Sciences: https://www.kiu.edu.pk/faculty/faculty-of-life-sciences
+- Faculty of Natural Sciences: https://www.kiu.edu.pk/faculty/faculty-of-natural-sciences
+- Faculty of Social Sciences & Humanities: https://www.kiu.edu.pk/faculty/faculty-of-social-sciences-and-humanities
+- KIU LMS FAQs: https://lms.kiu.edu.pk/faqs
 - Location: Gilgit-Baltistan, Pakistan
-- Established as a leading university in the northern areas of Pakistan
+
+ESSA WALI INFO:
+- Essa Wali is a web developer currently working in the KIU IT Section.
 
 ADMISSIONS INFORMATION:
-- Spring Admissions 2025 are open with bridging semester options
+- Spring Admissions 2025 are open with bridging semester options.
 - Online application portal available at admissions.kiu.edu.pk
 - Multiple undergraduate and graduate programs available
 - Merit-based selection process
@@ -70,55 +81,17 @@ FREQUENTLY ASKED QUESTIONS:
 
 const getSystemPrompt = (language: 'en' | 'ur') => {
   if (language === 'ur') {
-    return `آپ KIU Student Sage ہیں، قراقرم انٹرنیشنل یونیورسٹی کے آفیشل ورچوئل اسسٹنٹ۔ طلبا کی مدد کریں اور ان کے سوالات کا واضح اور شائستہ جواب دیں داخلہ، تعلیمی، فیس، ہاسٹل، امتحانات، اور عام یونیورسٹی معاملات کے بارے میں۔
-
-💡 اہم ہدایات:
-
-جوابات مختصر، واضح اور مددگار رکھیں۔
-
-دوستانہ طلبا سپورٹ زبان استعمال کریں (روبوٹ کی طرح نہ لگیں)۔
-
-جب کوئی لنک دیں تو اس فارمیٹ کا استعمال کریں (markdown نہیں):
-👉 https://admissions.kiu.edu.pk/
-
-صرف KIU کے حقیقی اور آفیشل لنکز استعمال کریں۔ اندازہ نہ لگائیں یا URLs نہ بنائیں۔
-
-اگر صارف فیس کے بارے میں پوچھے تو انہیں یہاں رہنمائی کریں:
-👉 https://admissions.kiu.edu.pk/p/approved-fee-structure-for-academic-semester-fall-2024-and-spring-2025-GB9BXA
-
-کوئی بھی stars (**) استعمال نہ کریں۔ سادہ text، bullet points، یا emojis استعمال کریں۔
-
-یہ نہ کہیں کہ آپ OpenAI ماڈل یا chatbot ہیں۔ آپ KIU Student Sage اسسٹنٹ ہیں۔
-
-اگر یقین نہیں یا دستیاب نہیں تو کہیں:
-"براہ کرم مزید معلومات کے لیے KIU کی آفیشل ویب سائٹ دیکھیں: https://kiu.edu.pk"
-
+    return `آپ KIU Student Sage ہیں، قراقرم انٹرنیشنل یونیورسٹی کے آفیشل ورچوئل اسسٹنٹ۔ طلبا کی LMS, سکالرشپ، فیکلٹی، کیلنڈر، ریسرچ، ہاسٹل، فیس، داخلہ وغیرہ سے متعلق معلومات میں مدد کریں۔
+جب کوئی لنک دیں تو اس فارمیٹ کا استعمال کریں: 👉 [لنک]
+نئے لنکس: LMS: https://lms.kiu.edu.pk، کیلنڈر: https://www.kiu.edu.pk/calendar، وظائف: https://www.kiu.edu.pk/center/scholarships-2، سہولات: https://www.kiu.edu.pk/facilities/campus-facilities، فیکلٹی: (اوپر دیکھیں)
+Essa Wali: "Essa Wali KIU IT سیکشن میں ویب ڈیولپر ہیں۔"
 ${KNOWLEDGE_BASE}`;
   }
 
-  return `You are KIU Student Sage, the official virtual assistant for Karakoram International University. Help students by answering their questions clearly and politely about admissions, academics, fees, hostels, exams, and general university matters.
-
-💡 Follow these important instructions:
-
-Keep answers short, clear, and helpful.
-
-Use friendly student support language (don't sound robotic).
-
-When giving a link, use this format (NOT markdown):
-👉 https://admissions.kiu.edu.pk/
-
-Only use real and official links from KIU. Don't guess or make up URLs.
-
-If a user asks about the fee structure, guide them to:
-👉 https://admissions.kiu.edu.pk/p/approved-fee-structure-for-academic-semester-fall-2024-and-spring-2025-GB9BXA
-
-Do not use any stars (**) for formatting. Use plain text, bullet points, or emojis instead.
-
-Do not say you are an OpenAI model or chatbot. You are the KIU Student Sage assistant.
-
-If unsure or not available, say:
-"Please visit the official KIU website for more information: https://kiu.edu.pk"
-
+  return `You are KIU Student Sage, the official virtual assistant for Karakoram International University. Help students by answering about LMS, scholarships, faculty, calendar, research, hostel matters, fees, admissions, etc.
+When giving a link, use this format (not markdown): 👉 [link]
+New reference links: LMS: https://lms.kiu.edu.pk, Calendar: https://www.kiu.edu.pk/calendar, Scholarships: https://www.kiu.edu.pk/center/scholarships-2, Campus Facilities: https://www.kiu.edu.pk/facilities/campus-facilities, Faculty: (see above)
+Essa Wali: "Essa Wali is a web developer currently working in the KIU IT Section."
 ${KNOWLEDGE_BASE}`;
 };
 
@@ -209,6 +182,88 @@ serve(async (req) => {
       links.push({
         text: language === 'en' ? '🏫 Campus Facilities' : '🏫 کیمپس کی سہولات',
         url: 'https://kiu.edu.pk/facilities/campus-facilities',
+        icon: 'external'
+      });
+    }
+    
+    if (messageLower.includes('hostel')) {
+      links.push({
+        text: language === 'en' ? '🏠 Hostel Facilities' : '🏠 ہاسٹل کی سہولتیں',
+        url: 'https://www.kiu.edu.pk/facilities/campus-facilities',
+        icon: 'external'
+      });
+    }
+    
+    if (messageLower.includes('lms')) {
+      links.push({
+        text: language === 'en' ? '📚 KIU LMS Portal' : '📚 KIU LMS پورٹل',
+        url: 'https://lms.kiu.edu.pk',
+        icon: 'external'
+      });
+      if (messageLower.includes('faq') || messageLower.includes('problem') || messageLower.includes('help')) {
+        links.push({
+          text: language === 'en' ? '❓ LMS FAQs' : '❓ LMS اکثر پوچھے گئے سوالات',
+          url: 'https://lms.kiu.edu.pk/faqs',
+          icon: 'external'
+        });
+      }
+    }
+    
+    if (messageLower.includes('faculty')) {
+      links.push({
+        text: language === 'en' ? '👩‍🔬 Faculty of Life Sciences' : '👩‍🔬 فیکلٹی آف لائف سائنسز',
+        url: 'https://www.kiu.edu.pk/faculty/faculty-of-life-sciences',
+        icon: 'external'
+      });
+      links.push({
+        text: language === 'en' ? '🔬 Faculty of Natural Sciences' : '🔬 فیکلٹی آف نیچرل سائنسز',
+        url: 'https://www.kiu.edu.pk/faculty/faculty-of-natural-sciences',
+        icon: 'external'
+      });
+      links.push({
+        text: language === 'en' ? '📚 Faculty of Social Sciences & Humanities' : '📚 فیکلٹی آف سوشل سائنسز اینڈ ہیومینیٹیز',
+        url: 'https://www.kiu.edu.pk/faculty/faculty-of-social-sciences-and-humanities',
+        icon: 'external'
+      });
+    }
+    
+    if (messageLower.includes('scholarship')) {
+      links.push({
+        text: language === 'en' ? '🎓 Scholarships' : '🎓 وظائف',
+        url: 'https://www.kiu.edu.pk/center/scholarships-2',
+        icon: 'external'
+      });
+    }
+    
+    if (messageLower.includes('calendar')) {
+      links.push({
+        text: language === 'en' ? '🗓️ Academic Calendar' : '🗓️ تعلیمی کیلنڈر',
+        url: 'https://www.kiu.edu.pk/calendar',
+        icon: 'external'
+      });
+    }
+    
+    if (messageLower.includes('advance studies') || messageLower.includes('research')) {
+      links.push({
+        text: language === 'en' ? '📖 Advance Studies & Research' : '📖 ایڈوانس سٹڈیز و ریسرچ',
+        url: 'https://www.kiu.edu.pk/office/advance-studies-research',
+        icon: 'external'
+      });
+    }
+    
+    if (messageLower.includes('facilit') || messageLower.includes('campus')) {
+      links.push({
+        text: language === 'en' ? '🏫 Campus Facilities' : '🏫 کیمپس کی سہولتیں',
+        url: 'https://www.kiu.edu.pk/facilities/campus-facilities',
+        icon: 'external'
+      });
+    }
+    
+    if (messageLower.includes('essa wali')) {
+      // This will be handled by AI, but just in case, push the info as well
+      links.push({
+        text: language === 'en' ? 'KIU IT Section Info' : 'KIU آئی ٹی سیکشن کی معلومات',
+        url: 'https://www.kiu.edu.pk/office/it-section',
         icon: 'external'
       });
     }
